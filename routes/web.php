@@ -58,6 +58,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/agents', [AgentController::class, 'searchSubAgents'])->name('searchSubAgents');
 
     Route::get('/float', [AgentController::class, 'float'])->name('float');
+    Route::get('/float/loangit', [AgentController::class, 'float'])->name('floatloan');
 
     Route::post('/float', [AgentController::class, 'floatpost'])->name('floatrequest');
 
