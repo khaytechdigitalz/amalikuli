@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\Admin\FeesController;
+use App\Http\Controllers\Admin\IncentiveController;
 use App\Http\Controllers\Admin\Role;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UserController;
@@ -77,6 +79,38 @@ Route::prefix('admin')->group(function () {
     Route::get('/edit-admin/{id}', [UserController::class, 'adminEdit'])->name('admin.adminEdit');
 
     Route::post('/update-admin', [UserController::class, 'adminUpdate'])->name('admin.adminUpdate');
+
+
+    Route::get('/fee-transfer', [FeesController::class, 'transfer'])->name('admin.fee.transfer');
+    Route::get('/fee-transfer/delete/{id}', [FeesController::class, 'deleteTransfer'])->name('admin.fee.transfer.delete');
+    Route::get('/fee-transfer/{id}', [FeesController::class, 'transfer_modify'])->name('admin.fee.transfer.modify');
+    Route::get('/fee-transfer-create', [FeesController::class, 'transfer_create'])->name('admin.fee.transfer.create');
+    Route::post('/fee-transfer-create', [FeesController::class, 'transfer_create_post'])->name('admin.fee.transfer.create');
+    Route::post('/fee-transfer-update', [FeesController::class, 'transfer_update'])->name('admin.fee.transfer.update');
+
+    Route::get('/fee-cashout', [FeesController::class, 'cashout'])->name('admin.fee.cashout');
+    Route::get('/fee-cashout/delete/{id}', [FeesController::class, 'deleteCashout'])->name('admin.fee.cashout.delete');
+    Route::get('/fee-cashout/{id}', [FeesController::class, 'cashout_modify'])->name('admin.fee.cashout.modify');
+    Route::get('/fee-cashout-create', [FeesController::class, 'cashout_create'])->name('admin.fee.cashout.create');
+    Route::post('/fee-cashout-create', [FeesController::class, 'cashout_create_post'])->name('admin.fee.cashout.create');
+    Route::post('/fee-cashout-update', [FeesController::class, 'cashout_update'])->name('admin.fee.cashout.update');
+
+    Route::get('/fee-poswithdrawal', [FeesController::class, 'poswithdrawal'])->name('admin.fee.poswithdrawal');
+    Route::get('/fee-poswithdrawal/delete/{id}', [FeesController::class, 'deletePoswithdrawal'])->name('admin.fee.poswithdrawal.delete');
+    Route::get('/fee-poswithdrawal/{id}', [FeesController::class, 'poswithdrawal_modify'])->name('admin.fee.poswithdrawal.modify');
+    Route::get('/fee-poswithdrawal_create', [FeesController::class, 'poswithdrawal_create'])->name('admin.fee.poswithdrawal.create');
+    Route::post('/fee-poswithdrawal_create', [FeesController::class, 'poswithdrawal_create_post'])->name('admin.fee.poswithdrawal.create');
+    Route::post('/fee-poswithdrawal_update', [FeesController::class, 'poswithdrawal_update'])->name('admin.fee.poswithdrawal.update');
+
+    Route::get('/incentive-flat', [IncentiveController::class, 'flat'])->name('admin.incentive.flat');
+    Route::get('/incentive-flat/delete/{id}', [IncentiveController::class, 'deleteFlat'])->name('admin.incentive.flat.delete');
+    Route::get('/incentive-flat-create', [IncentiveController::class, 'createFlat'])->name('admin.incentive.flat.create');
+    Route::post('/incentive-flat-create', [IncentiveController::class, 'create_Flat_post'])->name('admin.incentive.flat.create');
+
+    Route::get('/incentive-percent', [IncentiveController::class, 'percent'])->name('admin.incentive.percent');
+    Route::get('/incentive-percent/delete/{id}', [IncentiveController::class, 'deletePercent'])->name('admin.incentive.percent.delete');
+    Route::get('/incentive-flat-create', [IncentiveController::class, 'createPercent'])->name('admin.incentive.percent.create');
+    Route::post('/incentive-flat-create', [IncentiveController::class, 'create_Percent_post'])->name('admin.incentive.percent.create');
 
 
     Route::get('roles', [Role::class, 'roles'])->name('admin.roles');

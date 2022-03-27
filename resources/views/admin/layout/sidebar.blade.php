@@ -99,7 +99,7 @@
             <div id="sidebar-menu" class="sidebar-menu">
                 <ul>
                     <li class="menu-title"><span>Main</span></li>
-                   
+
                     <li>
                         <a class="nav-link" href="{{url('admin/dashboard')}}" ><i data-feather="home"></i> <span>Dashboard</span></a>
                     </li>
@@ -117,19 +117,45 @@
                         <span>KYC</span></a>
                     </li>
                     <li>
-                        <a class="nav-link active" href="#{{url('bill-payment')}}"><i class="fa fa-sticky-note"></i>
+                        <a class="nav-link active" href="{{url('bill-payment')}}"><i class="fa fa-sticky-note"></i>
                             <span>All Bills</span></a>
                     </li>
                     <li>
-                        <a class="nav-link active" href="#{{url('bills/airtime')}}"><i class="fa fa-network-wired"></i>
+                        <a class="nav-link active" href="{{url('bills/airtime')}}"><i class="fa fa-network-wired"></i>
                             <span>Buy Airtime</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="#{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>
+                        <a class="nav-link" href="{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>
                     </li>
                     <li>
                         <a href="#{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>
                     </li>
+
+                    <li>
+                        <a href="{{route('admin.fee.transfer')}}"><i class="fa fa-money-check"></i>
+                            <span>Transfer Fees</span></a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('admin.fee.cashout')}}"><i class="fa fa-money-check"></i>
+                            <span>Cashout Fees</span></a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('admin.fee.poswithdrawal')}}"><i class="fa fa-money-check"></i>
+                            <span>Pos Withdrawal Fees</span></a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('admin.incentive.flat')}}"><i class="fa fa-money-bill-wave"></i>
+                            <span>Incentives (Flat)</span></a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('admin.incentive.percent')}}"><i class="fa fa-money-bill-wave"></i>
+                            <span>Incentive (Percentage)</span></a>
+                    </li>
+
                     <li>
                         <a href="#{{url('settings/performance')}}"><i class="fa fa-chart-bar"></i>
                             <span>Performance</span></a>
