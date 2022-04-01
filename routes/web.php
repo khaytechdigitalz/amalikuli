@@ -128,11 +128,11 @@ Route::get('/bills/airtime', function () {
 })->name('bills.airtime');
 
 Route::post('bill', [BillsPaymentController::class, 'buyAirtime'])->name('bill');
+Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.data');
+Route::post('dataplans', [BillsPaymentController::class, 'dataPlans'])->name('dataplans');
 
 
-Route::get('/bills/data', function () {
 
-})->name('bills.data');
 
 Route::get('/wallet/transfer', function () {
     return view('wallet_transfer');

@@ -142,7 +142,10 @@ class BillsPaymentController extends Controller
         return view('bills.data', $data);
     }
 
-    public function dataPlans($servicetype){
+    public function dataPlans(Request $request){
+
+        $input = $request->all();
+
 
         $curl = curl_init();
 
@@ -156,7 +159,7 @@ class BillsPaymentController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-    "service_type": "'.$servicetype.'",
+    "service_type": "' . $input['id'] . '",
 }',
             CURLOPT_HTTPHEADER => array(
                 'x-api-key: '.env('BAXI_APIKEY'),
@@ -168,6 +171,8 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
         echo $response;
+
+        return $request;
     }
 
     public function buyDataPlans(Request $request){

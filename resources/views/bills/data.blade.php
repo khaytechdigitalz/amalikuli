@@ -22,7 +22,7 @@
                             <div class="box w3-card-4">
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
-                                <form action="" method="POST">
+                                <form action="{{route('dataplans')}}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-8">
@@ -33,7 +33,34 @@
                                                     <label for="network" class=" requiredField">
                                                         Network<span class="asteriskField">*</span>
                                                     </label>
+                                                    <script>
+                                                        function showUser() {
+                                                            var str= document.getElementById("network").value;
 
+                                                            if (str == "") {
+                                                                document.getElementById("plan").innerHTML = "IUC cannot be empty";
+                                                                document.getElementById("submit").removeAttribute("disabled");
+                                                                return;
+                                                            } else {
+                                                                document.getElementById("submite").innerText="loading....";
+                                                                var xmlhttp = new XMLHttpRequest();
+                                                                xmlhttp.onreadystatechange = function() {
+                                                                    if (this.readyState == 4 && this.status == 200) {
+                                                                        document.getElementById("submite").innerText="Verify";
+                                                                        if(this.responseText=="fail"){
+                                                                            document.getElementById("plan").innerHTML = "Error validating IUC Number";
+                                                                            document.getElementById("submite").setAttribute("disabled", "true");
+                                                                        }else{
+                                                                            document.getElementById("plan").innerHTML = this.responseText;
+                                                                            document.getElementById("submite").removeAttribute("disabled");
+                                                                        }
+                                                                    }
+                                                                };
+                                                                xmlhttp.open("GET","{{ route('dataplans', '/') }}/'id",true);
+                                                                xmlhttp.send();
+                                                            }
+                                                        }
+                                                    </script>
                                                     <div class="mb-3">
                                                         <select name="id" class="text-success form-control" required="">
                                                             @foreach($providers as $provider)
@@ -41,62 +68,59 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
+{{--                                                    <button id="network" type="button" onclick="showUser()"  class="btn"--}}
+{{--                                                            style="color: white;background-color: #048047" > Get Plan </button>--}}
+
                                                 </div>
 
-                                                <div id="div_id_network" class="form-group mt-4">
-                                                    <label for="network" class=" requiredField">
-                                                        Plans<span class="asteriskField">*</span>
-                                                    </label>
 
-                                                    <div class="mb-3">
-                                                        <select name="datacode" class="text-success form-control" required=""
-                                                                onchange="form.amount.value='1000';">
-                                                            <option value="1">1GB - 30days</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+{{--                                                <div id="div_id_network" class="form-group mt-4">--}}
+{{--                                                    <label for="network" class=" requiredField">--}}
+{{--                                                        Plans<span class="asteriskField">*</span>--}}
+{{--                                                    </label>--}}
 
-                                                <div id="div_id_airtimetype" class="form-group">
-                                                    <label for="airtimetype_a" class=" requiredField">
-                                                        Amount<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="form-group">
-                                                        <input name="airtimetype" max="4000" min="100"
-                                                               class="text-success form-control" placeholder="Amount"
-                                                               id="amount" readonly>
-                                                    </div>
-                                                </div>
+{{--                                                    <div class="mb-3">--}}
+{{--                                                        <select name="plan" class="text-success form-control" required="">--}}
+{{--                                                            <option value="1">1GB - 30days</option>--}}
+{{--                                                        </select>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
 
-                                                <div id="div_id_network" class="form-group">
-                                                    <label for="network" class=" requiredField">
-                                                        Phone Number<span class="asteriskField">*</span>
-                                                    </label>
-                                                    <div class="">
-                                                        <input type="phone" class="form-control" placeholder="Phone number" required>
-                                                    </div>
-                                                </div>
+{{--                                                <div id="div_id_airtimetype" class="form-group">--}}
+{{--                                                    <label for="airtimetype_a" class=" requiredField">--}}
+{{--                                                        Amount<span class="asteriskField">*</span>--}}
+{{--                                                    </label>--}}
+{{--                                                    <div class="form-group">--}}
+{{--                                                        <input name="airtimetype" max="4000" min="100"--}}
+{{--                                                               class="text-success form-control" placeholder="Amount"--}}
+{{--                                                               id="amount" readonly>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+
+{{--                                                <div id="div_id_network" class="form-group">--}}
+{{--                                                    <label for="network" class=" requiredField">--}}
+{{--                                                        Phone Number<span class="asteriskField">*</span>--}}
+{{--                                                    </label>--}}
+{{--                                                    <div class="">--}}
+{{--                                                        <input type="phone" class="form-control" placeholder="Phone number" required>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
 
                                                 <button type="submit" class="btn"
-                                                        style="color: white;background-color: #048047" id="btnsubmit">
-                                                    Purchase Now
+                                                        style="color: white;background-color: #048047" id="submite">
+                                                    Get Plan
                                                 </button>
                                             </div>
                                         </div>
                                         <div class="col-sm-4 ">
                                             <br>
-                                            <h6 class="text-center">Codes for Airtime Balance: </h6>
+                                            <h6 class="text-center">Codes for Data Balance: </h6>
                                             <ul class="list-group">
-                                                <li class="list-group-item list-group-item-primary">MTN Airtime VTU
-                                                    <span id="RightT"> *556#  </span></li>
-                                                <li class="list-group-item list-group-item-success"> 9mobile Airtime VTU
-                                                    *232#
-                                                </li>
-                                                <li class="list-group-item list-group-item-action"> Airtel Airtime VTU
-                                                    *123#
-                                                </li>
-                                                <li class="list-group-item list-group-item-info"> Glo Airtime VTU
-                                                    #124#.
-                                                </li>
+                                                <li class="list-group-item list-group-item-secondary">MTN [SME]     *461*4#  </li>
+                                                <li class="list-group-item list-group-item-primary">MTN [Gifting]     *131*4# or *460*260#  </li>
+                                                <li class="list-group-item list-group-item-dark"> 9mobile [Gifting]   *228# </li>
+                                                <li class="list-group-item list-group-item-action"> Airtel   *140# </li>
+                                                <li class="list-group-item list-group-item-success"> Glo  *127*0#. </li>
                                             </ul>
                                         </div>
                                     </div>
