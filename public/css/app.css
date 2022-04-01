@@ -1138,9 +1138,16 @@ select {
 .col-auto {
 	grid-column: auto;
 }
+.m-0 {
+	margin: 0px;
+}
 .mx-auto {
 	margin-left: auto;
 	margin-right: auto;
+}
+.my-5 {
+	margin-top: 1.25rem;
+	margin-bottom: 1.25rem;
 }
 .ml-3 {
 	margin-left: 0.75rem;
@@ -1169,9 +1176,6 @@ select {
 .mt-1 {
 	margin-top: 0.25rem;
 }
-.ml-2 {
-	margin-left: 0.5rem;
-}
 .mb-6 {
 	margin-bottom: 1.5rem;
 }
@@ -1189,6 +1193,9 @@ select {
 }
 .ml-1 {
 	margin-left: 0.25rem;
+}
+.ml-2 {
+	margin-left: 0.5rem;
 }
 .-mr-0\.5 {
 	margin-right: -0.125rem;
@@ -1211,12 +1218,6 @@ select {
 .mb-4 {
 	margin-bottom: 1rem;
 }
-.mb-2 {
-	margin-bottom: 0.5rem;
-}
-.-mt-px {
-	margin-top: -1px;
-}
 .mb-0 {
 	margin-bottom: 0px;
 }
@@ -1225,6 +1226,18 @@ select {
 }
 .mb-5 {
 	margin-bottom: 1.25rem;
+}
+.-mt-px {
+	margin-top: -1px;
+}
+.mb-1 {
+	margin-bottom: 0.25rem;
+}
+.mb-2 {
+	margin-bottom: 0.5rem;
+}
+.ml-0 {
+	margin-left: 0px;
 }
 .block {
 	display: block;
@@ -1240,6 +1253,9 @@ select {
 }
 .grid {
 	display: grid;
+}
+.contents {
+	display: contents;
 }
 .hidden {
 	display: none;
@@ -1385,6 +1401,9 @@ select {
 .grid-cols-1 {
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 }
+.flex-row {
+	flex-direction: row;
+}
 .flex-col {
 	flex-direction: column;
 }
@@ -1487,9 +1506,6 @@ select {
 .border-b {
 	border-bottom-width: 1px;
 }
-.border-r {
-	border-right-width: 1px;
-}
 .border-gray-300 {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
@@ -1508,10 +1524,6 @@ select {
 .border-gray-100 {
 	--tw-border-opacity: 1;
 	border-color: rgba(243, 244, 246, var(--tw-border-opacity));
-}
-.border-gray-400 {
-	--tw-border-opacity: 1;
-	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
 }
 .bg-white {
 	--tw-bg-opacity: 1;
@@ -1583,6 +1595,9 @@ select {
 .p-6 {
 	padding: 1.5rem;
 }
+.p-4 {
+	padding: 1rem;
+}
 .px-4 {
 	padding-left: 1rem;
 	padding-right: 1rem;
@@ -1639,10 +1654,6 @@ select {
 	padding-top: 2.5rem;
 	padding-bottom: 2.5rem;
 }
-.py-0 {
-	padding-top: 0px;
-	padding-bottom: 0px;
-}
 .pt-6 {
 	padding-top: 1.5rem;
 }
@@ -1673,11 +1684,11 @@ select {
 .pb-1 {
 	padding-bottom: 0.25rem;
 }
-.pt-8 {
-	padding-top: 2rem;
-}
 .pb-0 {
 	padding-bottom: 0px;
+}
+.pt-8 {
+	padding-top: 2rem;
 }
 .text-left {
 	text-align: left;
@@ -1741,9 +1752,6 @@ select {
 }
 .tracking-widest {
 	letter-spacing: 0.1em;
-}
-.tracking-wider {
-	letter-spacing: 0.05em;
 }
 .text-gray-500 {
 	--tw-text-opacity: 1;

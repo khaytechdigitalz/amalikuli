@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\BillsPaymentController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\PosManagementController;
 use App\Http\Controllers\UserController;
@@ -126,6 +127,9 @@ Route::get('/bills/airtime', function () {
     return view('bills/airtime');
 })->name('bills.airtime');
 
+Route::post('bill', [BillsPaymentController::class, 'buyAirtime'])->name('bill');
+
+
 Route::get('/bills/data', function () {
 
 })->name('bills.data');
@@ -151,5 +155,6 @@ Route::get('/settings/pass', function () {
 Route::get('/settings/delete', function (){
     return view('settings/delete');
 });
+Route::post('bills.bill', [BillsPaymentController::class, 'buyAirtime'])->name('bills.bill');
 
 require __DIR__ . '/admin.php';

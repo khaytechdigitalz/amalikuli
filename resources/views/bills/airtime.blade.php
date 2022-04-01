@@ -22,7 +22,7 @@
                             <div class="box w3-card-4">
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
-                                <form action="" method="POST">
+                                <form action="{{route('bill')}}" method="POST">
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <div id="AirtimeNote" class="alert alert-danger"
