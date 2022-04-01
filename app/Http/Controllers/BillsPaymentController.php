@@ -93,11 +93,11 @@ class BillsPaymentController extends Controller
                 $response = curl_exec($curl);
 
                 curl_close($curl);
-                echo $response;
-
+//                echo $response;
+//return $response;
                 $rep = json_decode($response, true);
 
-                if ($rep['status'] != "success") {
+                if ($rep['status'] != 'success') {
 //                    return back()->with([
 //                        'error' => $rep['message']
 //                    ]);
@@ -111,7 +111,7 @@ class BillsPaymentController extends Controller
 
                     return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
 
-                } else {
+                } elseif ($rep['status'] = 'success') {
 
 
 //                return back()->with([
@@ -121,13 +121,13 @@ class BillsPaymentController extends Controller
                         'services' => 'airtime',
                         'network' => $request->network,
                         'amount' => $request->amount,
-                        'number' => $request->number,
-                        'server_res' => $response,
+                        'number' => $request->phone,
+                        'server_res' => 'null',
                         'ref' => $ref,
                     ]);
-                    $name = $response->network;
+                    $name = $request->network;
                     $am = "NGN $request->amount  Airtime Purchase Was Successful To";
-                    $ph = $request->number;
+                    $ph = $request->phone;
 
                     return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
 

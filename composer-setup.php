@@ -1614,15 +1614,15 @@ class HttpClient {
             return $caPath;
         }
 
-        // If SSL_CERT_FILE env variable points to a valid certificate/bundle, use that.
-        // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
+        // If SSL_CERT_FILE .env variable points to a valid certificate/bundle, use that.
+        // This mimics how OpenSSL uses the SSL_CERT_FILE .env variable.
         $envCertFile = getenv('SSL_CERT_FILE');
         if ($envCertFile && is_readable($envCertFile) && validateCaFile(file_get_contents($envCertFile))) {
             return $caPath = $envCertFile;
         }
 
-        // If SSL_CERT_DIR env variable points to a valid certificate/bundle, use that.
-        // This mimics how OpenSSL uses the SSL_CERT_FILE env variable.
+        // If SSL_CERT_DIR .env variable points to a valid certificate/bundle, use that.
+        // This mimics how OpenSSL uses the SSL_CERT_FILE .env variable.
         $envCertDir = getenv('SSL_CERT_DIR');
         if ($envCertDir && is_dir($envCertDir) && is_readable($envCertDir)) {
             return $caPath = $envCertDir;
