@@ -23,6 +23,7 @@
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
                                 <form action="" method="POST">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <div id="AirtimeNote" class="alert alert-danger"
