@@ -109,8 +109,8 @@ Route::prefix('admin')->group(function () {
 
     Route::get('/incentive-percent', [IncentiveController::class, 'percent'])->name('admin.incentive.percent');
     Route::get('/incentive-percent/delete/{id}', [IncentiveController::class, 'deletePercent'])->name('admin.incentive.percent.delete');
-    Route::get('/incentive-flat-create', [IncentiveController::class, 'createPercent'])->name('admin.incentive.percent.create');
-    Route::post('/incentive-flat-create', [IncentiveController::class, 'create_Percent_post'])->name('admin.incentive.percent.create');
+    Route::get('/incentive-percent-create', [IncentiveController::class, 'createPercent'])->name('admin.incentive.percent.create');
+    Route::post('/incentive-percent-create', [IncentiveController::class, 'create_Percent_post'])->name('admin.incentive.percent.create');
 
 
     Route::get('roles', [Role::class, 'roles'])->name('admin.roles');

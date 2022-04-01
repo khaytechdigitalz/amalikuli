@@ -127,7 +127,7 @@ Route::get('/bills/airtime', function () {
 })->name('bills.airtime');
 
 Route::get('/bills/data', function () {
-    return view('bills/data');
+
 })->name('bills.data');
 
 Route::get('/wallet/transfer', function () {

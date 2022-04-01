@@ -34,11 +34,12 @@
                                                     </label>
 
                                                     <div class="mb-3">
-                                                        <select name="id" class="text-success form-control" required="">
-                                                            <option value="103">MTN Airtime</option>
-                                                            <option value="104">GLO Airtime</option>
-                                                            <option value="105">9mobile Airtime</option>
-                                                            <option value="106">AIRTEL Airtime</option>
+                                                        <select name="network" class="text-success form-control" required>
+                                                            <option value="mtn">MTN Airtime</option>
+                                                            <option value="glo">GLO Airtime</option>
+                                                            <option value="9mobile">9mobile Airtime</option>
+                                                            <option value="airtel">AIRTEL Airtime</option>
+                                                            <option value="Smile">Smile Airtime</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -48,7 +49,7 @@
                                                         Amount<span class="asteriskField">*</span>
                                                     </label>
                                                     <div class="form-group">
-                                                        <input name="airtimetype" max="4000" min="100"
+                                                        <input name="amount" max="4000" min="100"
                                                                class="text-success form-control" placeholder="Amount"
                                                                id="airtimetype" required>
                                                     </div>
@@ -59,7 +60,7 @@
                                                         Phone Number<span class="asteriskField">*</span>
                                                     </label>
                                                     <div class="">
-                                                        <input type="number" class="form-control"
+                                                        <input type="number" name="phone" class="form-control"
                                                                placeholder="Phone number" required>
                                                     </div>
                                                 </div>

@@ -128,7 +128,7 @@
                         <a class="nav-link" href="{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>
                     </li>
                     <li>
-                        <a href="#{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>
+                        <a href="{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>
                     </li>
 
                     <li>
@@ -157,7 +157,7 @@
                     </li>
 
                     <li>
-                        <a href="#{{url('settings/performance')}}"><i class="fa fa-chart-bar"></i>
+                        <a href="{{url('settings/performance')}}"><i class="fa fa-chart-bar"></i>
                             <span>Performance</span></a>
                     </li>
                     <li>

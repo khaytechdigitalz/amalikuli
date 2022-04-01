@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IncentivePercent extends Model
+class DataProvider extends Model
 {
     use HasFactory;
-    protected $guarded=[];
 }

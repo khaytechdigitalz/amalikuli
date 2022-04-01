@@ -6,7 +6,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Incentive Flat Fee Pricing</h3>
+                        <h3 class="page-title">Incentive Flat</h3>
                         <ul class="breadcrumb">
                             <li ><a href="{{url('admin/dashboard')}}">Dashboard</a></li>
                             {{--                        <li class="breadcrumb-item active">Pos Management</li>--}}
@@ -22,7 +22,7 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{route('admin.fee.cashout.create')}}" class="btn btn-primary">Create Fee</a>
+                                <a href="{{route('admin.incentive.flat.create')}}" class="btn btn-primary">Create Incentive</a>
                             </div>
 
                             <div class="row">

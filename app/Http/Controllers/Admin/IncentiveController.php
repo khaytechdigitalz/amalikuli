@@ -105,7 +105,6 @@ class IncentiveController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'fee' => 'required|max:200',
             'range' => 'required|max:200',
             'threshold' => 'required',
             'description' => 'required',
@@ -118,7 +117,6 @@ class IncentiveController extends Controller
         }
 
         IncentivePercent::create([
-            "fee" => $input['fee'],
             "range_set" => $input['range'],
             "threshold" => $input['threshold'],
             "description" => $input['description'],

@@ -9,9 +9,9 @@
                     <div class="page-header">
                         <div class="row">
                             <div class="col">
-                                <h3 class="page-title">Create Incentive Flat Fee</h3>
+                                <h3 class="page-title">Create Incentive </h3>
                                 <ul class="breadcrumb">
-                                    <li class=""><a href="{{route('admin.fee.cashout.create')}}">Incentive Flat</a></li>
+                                    <li class=""><a href="{{route('admin.incentive.percent')}}">Incentive Percent</a></li>
                                     {{--                                <li class="breadcrumb-item active">Profile</li>--}}
                                 </ul>
                             </div>
@@ -43,7 +43,7 @@
                                         </div>
                                     @endif
 
-                                    <form action="{{route('admin.fee.cashout.create')}}" method="POST">
+                                    <form action="{{route('admin.incentive.percent.create')}}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">

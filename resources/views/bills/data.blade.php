@@ -35,10 +35,9 @@
 
                                                     <div class="mb-3">
                                                         <select name="id" class="text-success form-control" required="">
-                                                            <option value="103">MTN Airtime</option>
-                                                            <option value="104">GLO Airtime</option>
-                                                            <option value="105">9mobile Airtime</option>
-                                                            <option value="106">AIRTEL Airtime</option>
+                                                            @foreach($providers as $provider)
+                                                                <option value="{{$provider->service_type}}">{{$provider->name}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -49,7 +48,7 @@
                                                     </label>
 
                                                     <div class="mb-3">
-                                                        <select name="id" class="text-success form-control" required=""
+                                                        <select name="datacode" class="text-success form-control" required=""
                                                                 onchange="form.amount.value='1000';">
                                                             <option value="1">1GB - 30days</option>
                                                         </select>
@@ -72,8 +71,7 @@
                                                         Phone Number<span class="asteriskField">*</span>
                                                     </label>
                                                     <div class="">
-                                                        <input type="number" class="form-control"
-                                                               placeholder="Phone number" required>
+                                                        <input type="phone" class="form-control" placeholder="Phone number" required>
                                                     </div>
                                                 </div>
 
