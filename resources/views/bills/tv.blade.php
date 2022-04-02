@@ -17,7 +17,7 @@
                                 </div>
                                 <div id="electPanel">
                                     <div class="alert alert-danger">0.1% discount apply.</div>
-                                    <form action="{{route('verifytv')}}" method="post">
+                                    <form action="{{route('bills.tvlist')}}" method="post">
                                         @csrf
                                         <div id="discotypeID" class="form-group">
                                             <label for="discotypeID" class=" requiredField">
@@ -28,7 +28,7 @@
                                                     <option selected="">---------</option>
                                                     <option value="gotv">Gotv</option>
                                                     <option value="dstv">Dstv</option>
-                                                    <option value="startime">Startime</option>
+                                                    <option value="startimes">Startime</option>
 
                                                 </select>
                                             </div>

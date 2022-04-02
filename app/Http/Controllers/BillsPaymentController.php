@@ -345,7 +345,22 @@ class BillsPaymentController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+//        return $response;
+
+        $rep = json_decode($response, true);
+
+        $rep1=$rep['data']['user']['name'];
+
+        if(isset($rep['data']['user']['currentBouquet'])){
+            $rep2 = $rep['data']['user']['currentBouquet'];
+
+        }else{
+            $rep2=null;
+        }
+
+        return view('bills.tvlist', compact('rep1', 'rep2', 'input'));
+
 
     }
 
@@ -428,7 +443,7 @@ class BillsPaymentController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS =>'{
-    "service_type": "mtn"
+    "service_type": "'.$input['network'].'"
 }',
             CURLOPT_HTTPHEADER => array(
                 'x-api-key: '.env('BAXI_APIKEY'),
