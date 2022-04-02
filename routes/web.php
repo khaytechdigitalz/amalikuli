@@ -129,7 +129,9 @@ Route::get('/bills/airtime', function () {
 
 Route::post('bill', [BillsPaymentController::class, 'buyAirtime'])->name('bill');
 Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.data');
-Route::post('dataplans', [BillsPaymentController::class, 'dataPlans'])->name('dataplans');
+Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->name('bills.dataplans');
+Route::get('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
+Route::post('verifytv', [BillsPaymentController::class, 'validateTV'])->name('verifytv');
 
 
 

@@ -145,8 +145,7 @@ class BillsPaymentController extends Controller
     public function dataPlans(Request $request){
 
         $input = $request->all();
-
-
+        $network= $request->id;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -159,7 +158,7 @@ class BillsPaymentController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => '{
-    "service_type": "' . $input['id'] . '",
+    "service_type": "' . $input['id'] . '"
 }',
             CURLOPT_HTTPHEADER => array(
                 'x-api-key: '.env('BAXI_APIKEY'),
@@ -170,12 +169,20 @@ class BillsPaymentController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+        $rep1 = json_decode($response, true);
 
-        return $request;
+        $rep=$rep1['data'];
+
+//        return $rep;
+
+        return view('bills.dataplans', compact('rep', 'network' ));
+
+
     }
 
-    public function buyDataPlans(Request $request){
+    public function buyDataPlans(Request $request)
+    {
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
@@ -191,40 +198,112 @@ class BillsPaymentController extends Controller
                 ->withInput();
         }
 
-        $ref=rand();
-        $agentid="plan";
+        if (Auth::check()) {
+            $user = User::find($request->user()->id);
+            $wallet = wallet::where('user_id', $user->id)->first();
 
-        $curl = curl_init();
+            $ref = rand();
+            $agentid = "plan";
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env('BAXI_URL').'services/databundle/request',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-    "agentReference": "'.$ref.'",
-    "agentId" : "'.$agentid.'",
-    "datacode" : '.$input['datacode'].',
-    "service_type": "'.$input['network'].'",
-    "amount": 200,
-    "phone": "'.$input['phone'].'"
+            if ($wallet->balance < $request->amount) {
+                $mg = "You Cant Make Purchase Above" . "NGN" . $request->amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet And Retry or Pay Online Using Our Alternative Payment Methods.";
+
+                return view('bills.bill', compact('user', 'mg'));
+
+            }
+            if ($request->amount < 0) {
+
+                $mg = "error transaction";
+                return view('bills.bill', compact('user', 'mg'));
+
+            }
+            $bo = bill_payment::where('ref', $ref)->first();
+            if (isset($bo)) {
+                $mg = "duplicate transaction";
+                return view('bills.bill', compact('user', 'mg'));
+
+            } else {
+                $user = User::find($request->user()->id);
+                $wallet = wallet::where('user_id', $user->id)->first();
+
+
+                $gt = $wallet->balance - $request->amount;
+
+
+                $wallet->balance = $gt;
+                $wallet->save();
+
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => env('BAXI_URL') . 'services/databundle/request',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => '{
+    "agentReference": "' . $ref . '",
+    "agentId" : "' . $agentid . '",
+    "datacode" : ' . $input['datacode'] . ',
+    "service_type": "' . $input['network'] . '",
+    "amount":"' . $input['amount'] . '",
+    "phone": "' . $input['phone'] . '"
 }',
-            CURLOPT_HTTPHEADER => array(
-                'x-api-key: '.env('BAXI_APIKEY'),
-                'Baxi-date: '.Carbon::now(),
-                'Content-Type: application/json'
-            ),
-        ));
+                    CURLOPT_HTTPHEADER => array(
+                        'x-api-key: ' . env('BAXI_APIKEY'),
+                        'Baxi-date: ' . Carbon::now(),
+                        'Content-Type: application/json'
+                    ),
+                ));
 
-        $response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-        curl_close($curl);
-        echo $response;
+                curl_close($curl);
+//                echo $response;
+//return $response;
+                $rep = json_decode($response, true);
 
+                if ($rep['status'] != 'success') {
+//                    return back()->with([
+//                        'error' => $rep['message']
+//                    ]);
+                    $zo=$wallet->balance+$request->amount;
+                    $wallet->balance = $zo;
+                    $wallet->save();
+
+                    $name= $request->network;
+                    $am= "NGN $request->amount Was Refunded To Your Wallet";
+                    $ph=", Transaction fail";
+
+                    return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
+
+                } elseif ($rep['status'] = 'success') {
+
+
+//                return back()->with([
+//                    'success' => $rep['data']['transactionMessage']
+                    $bo = bill_payment::create([
+                        'user_id' => $user->id,
+                        'services' => $request->network.'Data',
+                        'network' => $request->name,
+                        'amount' => $request->amount,
+                        'number' => $request->phone,
+                        'server_res' => 'null',
+                        'ref' => $ref,
+                    ]);
+                    $name = $request->network;
+                    $am = "$request->name   Was Successful To";
+                    $ph = $request->phone;
+
+                    return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
+                }
+
+                }
+        }
     }
 
     public function validateTV(Request $request){

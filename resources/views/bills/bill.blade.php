@@ -1,5 +1,6 @@
 @extends('layouts.sidebar')
-
+<br>
+<br>
 @section('content')
 
 @if(isset($mg))
@@ -62,12 +63,12 @@
     <body>
     <div class='card'>
      <div class='card-body'>
-        @if($rep= 'success')
+        @if($rep = 'success')
             <div style='border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;'>
                 <i class='checkmark'>✓</i>
             </div>
             <h1>Success</h1>
-        @elseif($rep!= 'success')
+        @elseif($rep != 'success')
             <div style='border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;'>
                 <f class='checkmark'>x</f>
             </div>

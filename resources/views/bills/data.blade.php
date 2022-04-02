@@ -22,7 +22,7 @@
                             <div class="box w3-card-4">
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
-                                <form action="{{route('dataplans')}}" method="POST">
+                                <form action="{{route('bills.dataplans')}}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-8">
@@ -33,34 +33,7 @@
                                                     <label for="network" class=" requiredField">
                                                         Network<span class="asteriskField">*</span>
                                                     </label>
-                                                    <script>
-                                                        function showUser() {
-                                                            var str= document.getElementById("network").value;
 
-                                                            if (str == "") {
-                                                                document.getElementById("plan").innerHTML = "IUC cannot be empty";
-                                                                document.getElementById("submit").removeAttribute("disabled");
-                                                                return;
-                                                            } else {
-                                                                document.getElementById("submite").innerText="loading....";
-                                                                var xmlhttp = new XMLHttpRequest();
-                                                                xmlhttp.onreadystatechange = function() {
-                                                                    if (this.readyState == 4 && this.status == 200) {
-                                                                        document.getElementById("submite").innerText="Verify";
-                                                                        if(this.responseText=="fail"){
-                                                                            document.getElementById("plan").innerHTML = "Error validating IUC Number";
-                                                                            document.getElementById("submite").setAttribute("disabled", "true");
-                                                                        }else{
-                                                                            document.getElementById("plan").innerHTML = this.responseText;
-                                                                            document.getElementById("submite").removeAttribute("disabled");
-                                                                        }
-                                                                    }
-                                                                };
-                                                                xmlhttp.open("GET","{{ route('dataplans', '/') }}/'id",true);
-                                                                xmlhttp.send();
-                                                            }
-                                                        }
-                                                    </script>
                                                     <div class="mb-3">
                                                         <select name="id" class="text-success form-control" required="">
                                                             @foreach($providers as $provider)
