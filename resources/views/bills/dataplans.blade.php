@@ -46,7 +46,7 @@
                                                         </script>
                                                         <select name="datacode"   class="text-success form-control"  onChange="myNewFunction(this);" required="">
                                                             @foreach($rep as $provider)
-{{--                                                                <option>-------------</option>--}}
+                                                                <option>-------------</option>
                                                                 <option value="{{$provider['datacode']}}" id="{{$provider['price']}}" >{{$provider['name']}}--₦{{$provider['price']}} {{$provider['datacode']}}</option>
                                                             @endforeach
                                                         </select>
