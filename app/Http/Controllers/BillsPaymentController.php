@@ -455,7 +455,23 @@ class BillsPaymentController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+        $rep = json_decode($response, true);
+
+        $rep1=$rep['data'];
+        $code1=$rep['data'][0]['code'];
+        $name1=$rep['data'][0]['name'];
+//        foreach ($rep1 as $plan) {
+//            $pa = $plan['monthsPaidFor'];
+//            $pa1 = $plan['price'];
+
+//        $rep2=$rep['data'][0]['availablePricingOptions'];
+
+//        $rep1=json_decode($rep['data']['availablePricingOptions'], true);
+
+//        }
+
+        return view('bills.list', compact( 'input', 'rep1'));
 
     }
 
