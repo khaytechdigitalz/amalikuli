@@ -66,7 +66,13 @@ class VFDController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+        $rep = json_decode($response, true);
+
+        $rep1=$rep['data']['bank'];
+//return $rep1;
+        return view('transfer', compact( 'rep1'));
+
     }
 
     public function validateBankAccount(Request $request){

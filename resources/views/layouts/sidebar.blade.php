@@ -134,6 +134,14 @@
                     {{--                            <span>Posmanagement</span></a>--}}
                     {{--                    </li>--}}
 
+{{--                    @if(canSee('Transfer'))--}}
+                        <li>
+                            <a class="nav-link active" href="{{route('transfer')}}"><i
+                                    class="fa fa-credit-card"></i>
+                                <span>Transfer</span></a>
+                        </li>
+{{--                    @endif--}}
+
                     @if(canSee('buy-airtime'))
                         <li>
                             <a class="nav-link active" href="{{route('bills.airtime')}}"><i

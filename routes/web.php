@@ -5,6 +5,7 @@ use App\Http\Controllers\BillsPaymentController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\PosManagementController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VFDController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -129,6 +130,7 @@ Route::get('/bills/airtime', function () {
     return view('bills/airtime');
 })->name('bills.airtime');
 
+Route::get('transfer', [VFDController::class, 'bankList'])->name('transfer');
 Route::post('bill', [BillsPaymentController::class, 'buyAirtime'])->name('bill');
 Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.data');
 Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->name('bills.dataplans');
