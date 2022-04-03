@@ -529,7 +529,7 @@ class BillsPaymentController extends Controller
 
     }
 
-    public function electricityList($servicetype){
+    public function electricityList(){
 
         $curl = curl_init();
 

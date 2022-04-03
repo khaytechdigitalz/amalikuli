@@ -24,41 +24,48 @@
                                     {{--                                <h4 class="card-title">Basic Info</h4>--}}
                                     <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
 
-                                    <script>
-                                        function shoUser() {
-                                            var str= document.getElementById("tvphone1").value;
-                                            var k= document.getElementById("value").value;
+{{--                                    <script>--}}
+{{--                                        function shoUser() {--}}
+{{--                                            var str= document.getElementById("tvphone1").value;--}}
+{{--                                            var k= document.getElementById("value").value;--}}
 
-                                            if (str == "") {
-                                                document.getElementById("vtv1").innerHTML = "IUC cannot be empty";
-                                                document.getElementById("btnd1").removeAttribute("disabled");
-                                                return;
-                                            } else if (str.length<9) {
-                                                document.getElementById("vtv1").innerHTML = "IUC is too short";
-                                                document.getElementById("btnd1").removeAttribute("disabled");
-                                                return;
-                                            } else {
-                                                document.getElementById("btnv1").innerText="Verify....";
-                                                var xmlhttp = new XMLHttpRequest();
-                                                xmlhttp.onreadystatechange = function() {
-                                                    if (this.readyState == 4 && this.status == 200) {
-                                                        document.getElementById("btnv1").innerText="Verify";
-                                                        if(this.responseText=="fail"){
-                                                            document.getElementById("vtv1").innerHTML = "Error validating IUC Number";
-                                                            document.getElementById("btnd1").setAttribute("disabled", "true");
-                                                        }else{
-                                                            document.getElementById("vtv1").innerHTML = this.responseText;
-                                                            document.getElementById("btnd1").removeAttribute("disabled");
-                                                        }
-                                                    }
-                                                };
-                                                xmlhttp.open("GET",{{ route('tran', '/') }}"number"=+str+"+&networkcode="+k,true);
-                                                xmlhttp.send();
-                                            }
-                                        }
-                                    </script>
+{{--                                            if (str == "") {--}}
+{{--                                                document.getElementById("vtv1").innerHTML = "IUC cannot be empty";--}}
+{{--                                                document.getElementById("btnd1").removeAttribute("disabled");--}}
+{{--                                                return;--}}
+{{--                                            } else if (str.length<9) {--}}
+{{--                                                document.getElementById("vtv1").innerHTML = "IUC is too short";--}}
+{{--                                                document.getElementById("btnd1").removeAttribute("disabled");--}}
+{{--                                                return;--}}
+{{--                                            } else {--}}
+{{--                                                document.getElementById("btnv1").innerText="Verify....";--}}
+{{--                                                var xmlhttp = new XMLHttpRequest();--}}
+{{--                                                xmlhttp.onreadystatechange = function() {--}}
+{{--                                                    if (this.readyState == 4 && this.status == 200) {--}}
+{{--                                                        document.getElementById("btnv1").innerText="Verify";--}}
+{{--                                                        if(this.responseText=="fail"){--}}
+{{--                                                            document.getElementById("vtv1").innerHTML = "Error validating Account Number";--}}
+{{--                                                            document.getElementById("btnd1").setAttribute("disabled", "true");--}}
+{{--                                                        }else{--}}
+{{--                                                            document.getElementById("vtv1").innerHTML = this.responseText;--}}
+{{--                                                            document.getElementById("btnd1").removeAttribute("disabled");--}}
+{{--                                                        }--}}
+{{--                                                    }--}}
+{{--                                                };--}}
+{{--                                                xmlhttp.open("GET","
 
-                                    <form action="#" method="POST">
+
+
+verifybill.php?number="+str+"+&networkcode="+k,true);--}}
+{{--                                                xmlhttp.send();--}}
+{{--                                            }--}}
+{{--                                        }--}}
+{{--                                    </script>--}}
+                                    @if(isset($name))
+                                        <form action="#" method="POST">
+                                            @else
+                                        <form action="{{route('verify')}}" method="POST">
+                                            @endif
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
@@ -76,27 +83,19 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Account Number</label>
-                                                    <input  type="tel" id="tvphone1" class="form-control" name="number"><button id="btnv1" type="button" onclick="shoUser()">Verify</button>
-                                                    <b class="text-success fa-bold" id="vtv1"></b>
+                                                    <input  type="tel" id="tvphone1" class="form-control" name="number">
+{{--                                                    <button id="btnv1" type="button" onclick="shoUser()">Verify</button>--}}
+{{--                                                    <b class="text-success fa-bold" id="vtv1"></b>--}}
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
+                                                @if(isset($name))
                                                 <div class="form-group">
-                                                    <label for="amount">Amount</label>
-                                                    <input type="text" name="amount" id="amount" class="form-control"
-                                                           placeholder="Enter amount" required>
+                                                    <label>Account Name</label>
+                                                    <input  type="text"  class="form-control" name="number" readonly>
                                                 </div>
-
-                                                <div class="form-group">
-                                                    <label for="amount">Transfer Note</label>
-                                                    <textarea name="note" class="form-control"
-                                                              placeholder="Enter tranfer note">Transfer from Amali</textarea>
-                                                </div>
+                                                @endif
                                             </div>
                                         </div>
-                                        <div class="text-end mt-4">
-                                            <button type="submit" class="btn btn-primary">Transfer</button>
-                                        </div>
+                                            <button type="submit" class="btn btn-primary">Verify Account</button>
                                     </form>
                                 </div>
 

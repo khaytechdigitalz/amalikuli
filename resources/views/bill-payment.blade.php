@@ -63,7 +63,7 @@
                                     <center>
                                         <p class="card-text">Instantly Electricity with favourable discount compare to
                                             others</p>
-                                        <a class="btn btn-success" href="#">Select</a>
+                                        <a class="btn btn-success" href="{{route('bills.elect')}}">Select</a>
                                     </center>
                                 </div>
                             </div>

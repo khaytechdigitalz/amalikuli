@@ -75,11 +75,10 @@ class VFDController extends Controller
 
     }
 
-    public function validateBankAccount(Request $request){
+    public function validateBankAccount(Request  $request){
 
-        $bankCode="999058";
-        $accountNumber="0248215384";
-
+        $bankCode=$request->bankcode;
+        $accountNumber=$request->number;
 
         $auth=$this->auth_init();
         $token=$auth['access_token'];
@@ -105,7 +104,8 @@ class VFDController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+        return $response;
     }
 
     public function auth_init(){

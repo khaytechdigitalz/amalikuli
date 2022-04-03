@@ -119,9 +119,7 @@ Route::get('/posmanagement', function () {
 Route::get('/bill-payment', function (){
     return view('bill-payment');
 });
-Route::get('/bills/elect', function () {
-    return view('bills/elect');
-});
+
 
 Route::get('/bills/tv', function () {
     return view('bills/tv');
@@ -136,9 +134,11 @@ Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.d
 Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->name('bills.dataplans');
 Route::get('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
 Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
+Route::get('bills/elect', [BillsPaymentController::class, 'electricityList'])->name('bills.elect');
 
 Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
 
+Route::post('verify', [VFDController::class, 'validateBankAccount'])->name('verify');
 
 
 Route::get('/wallet/transfer', function () {
