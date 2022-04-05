@@ -135,6 +135,9 @@ Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->na
 Route::get('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
 Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
 Route::get('bills/elect', [BillsPaymentController::class, 'electricityList'])->name('bills.elect');
+Route::post('biils/verifyelect', [BillsPaymentController::class, 'validateElectricity'])->name('bills.verifyelect');
+
+Route::get('bills/pay', [BillsPaymentController::class, 'purchaseElectricity'])->name('bills.pay');
 
 Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
 

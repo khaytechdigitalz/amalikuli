@@ -21,6 +21,7 @@ class bill_payment  extends Model
         'number',
         'server_res',
         'ref',
+        'token',
     ];
 
 

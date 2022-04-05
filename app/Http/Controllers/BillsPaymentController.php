@@ -551,7 +551,13 @@ class BillsPaymentController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+
+        $rep = json_decode($response, true);
+
+        $rep1=$rep['data']['providers'];
+
+        return view('bills.elect', compact('rep1'));
     }
 
     public function validateElectricity(Request $request){
@@ -593,61 +599,142 @@ class BillsPaymentController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+        $rep = json_decode($response, true);
+
+
+        $rep1=$rep['data']['user'];
+//        return $rep1;
+
+        return view('bills.payelect', compact('rep1', 'input'));
 
     }
 
-    public function purchaseElectricity(Request $request){
+    public function purchaseElectricity(Request $request)
+    {
         $input = $request->all();
 
-        $validator = Validator::make($request->all(), [
-            'network' => 'required|max:200',
-            'amount' => 'required|max:200',
-            'period' => 'required',
-            'code' => 'required',
-            'number' => 'required|max:11'
-        ]);
+//        $validator = Validator::make($request->all(), [
+//            'network' => 'required|max:200',
+//            'amount' => 'required|max:200',
+//            'phone' => 'required',
+//            'number' => 'required|max:11'
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return back()
+//                ->withErrors($validator)
+//                ->withInput();
+//        }
 
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        if (Auth::check()) {
+            $user = User::find($request->user()->id);
+            $wallet = wallet::where('user_id', $user->id)->first();
 
-        $ref=rand();
-        $agentid="plan";
+            $ref = rand();
+            $agentid = "plan";
 
-        $curl = curl_init();
+            if ($wallet->balance < $request->amount) {
+                $mg = "You Cant Make Purchase Above" . "NGN" . $request->amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet And Retry or Pay Online Using Our Alternative Payment Methods.";
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => env('BAXI_URL').'services/electricity/request',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{
-    "phone" : "'.$input['phone'].'",
-    "amount" : "'.$input['amount'].'",
-    "account_number": "'.$input['number'].'",
-    "service_type": "'.$input['network'].'",
-    "agentReference": "'.$ref.'",
-    "agentId": "'.$agentid.'"
+                return view('bills.bill', compact('user', 'mg'));
+
+            }
+            if ($request->amount < 0) {
+
+                $mg = "error transaction";
+                return view('bills.bill', compact('user', 'mg'));
+
+            }
+            $bo = bill_payment::where('ref', $ref)->first();
+            if (isset($bo)) {
+                $mg = "duplicate transaction";
+                return view('bills.bill', compact('user', 'mg'));
+
+            } else {
+                $user = User::find($request->user()->id);
+                $wallet = wallet::where('user_id', $user->id)->first();
+
+
+                $gt = $wallet->balance - $request->amount;
+
+
+                $wallet->balance = $gt;
+                $wallet->save();
+
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => env('BAXI_URL') . 'services/electricity/request',
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'POST',
+                    CURLOPT_POSTFIELDS => '{
+    "phone" : "' . $input['phone'] . '",
+    "amount" : "' . $input['amount'] . '",
+    "account_number": "' . $input['number'] . '",
+    "service_type": "' . $input['network'] . '",
+    "agentReference": "' . $ref . '",
+    "agentId": "' . $agentid . '"
 }',
-            CURLOPT_HTTPHEADER => array(
-                'x-api-key: '.env('BAXI_APIKEY'),
-                'Baxi-date: '.Carbon::now(),
-                'Content-Type: application/json'
-            ),
-        ));
+                    CURLOPT_HTTPHEADER => array(
+                        'x-api-key: ' . env('BAXI_APIKEY'),
+                        'Baxi-date: ' . Carbon::now(),
+                        'Content-Type: application/json'
+                    ),
+                ));
 
-        $response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-        curl_close($curl);
-        echo $response;
+                curl_close($curl);
+//                echo $response;
+                $rep1 = json_decode($response, true);
 
+                $rep=$rep1['data'];
+                $token=$rep['tokenCode'];
+                $energy=$rep['amountOfPower'];
+                if ($rep['transactionStatus'] != 'success') {
+//                    return back()->with([
+//                        'error' => $rep['message']
+//                    ]);
+                    $zo=$wallet->balance+$request->amount;
+                    $wallet->balance = $zo;
+                    $wallet->save();
+
+                    $name= $request->network;
+                    $am= "NGN $request->amount Was Refunded To Your Wallet";
+                    $ph=", Transaction fail";
+
+                    return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
+
+                } elseif ($rep['transactionStatus'] = 'success') {
+
+
+//                return back()->with([
+//                    'success' => $rep['data']['transactionMessage']
+                    $bo = bill_payment::create([
+                        'user_id' => $user->id,
+                        'services' => $input['network'],
+                        'network' => $input['network'],
+                        'amount' => $request->amount,
+                        'number' => $request->phone,
+                        'server_res' => 'null',
+                        'ref' => $ref,
+                        'token' => $token,
+                    ]);
+                    $name =$input['network'];
+                    $am = "$request->network   Was Successful ";
+                    $ph = "Token: $token || Energy: $energy";
+
+                    return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
+                }
+            }
+        }
     }
 
 }

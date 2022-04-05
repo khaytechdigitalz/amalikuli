@@ -76,7 +76,7 @@ class VFDController extends Controller
     }
 
     public function validateBankAccount(Request  $request){
-
+return $request;
         $bankCode=$request->bankcode;
         $accountNumber=$request->number;
 
