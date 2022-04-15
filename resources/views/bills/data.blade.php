@@ -22,6 +22,14 @@
                             <div class="box w3-card-4">
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
+                                <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
+
+                                @if (session('danger'))
+                                    <div class="mb-4 font-medium text-sm text-red-500">
+                                        {{ session('danger') }}
+                                    </div>
+                                @endif
+
                                 <form action="{{route('bills.dataplans')}}" method="POST">
                                     @csrf
                                     <div class="row">

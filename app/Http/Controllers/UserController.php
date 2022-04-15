@@ -19,13 +19,14 @@ class UserController extends Controller
         $datas['trans'] = Transaction::where('user_id', Auth::id())->latest()->limit(10)->get();
         return view('dashboard', $datas);
     }
-   
+
     public function dashboard()
     {
         $datas['wallet'] = Wallet::where('user_id', Auth::id())->first()->balance;
         $datas['agent'] = User::where([['uuid', Auth::user()->uuid], ['sub_agent', 1]])->count();
         $datas['trans_count'] = Transaction::where('user_id', Auth::id())->count();
         $datas['trans'] = Transaction::where('user_id', Auth::id())->latest()->limit(10)->get();
+        $datas['i']=1;
         return view('dashboard', $datas);
     }
 

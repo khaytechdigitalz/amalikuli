@@ -17,7 +17,7 @@
                             </div>
                             <div id="electPanel">
                                 <div class="alert alert-danger">0.1% discount apply.</div>
-                                <form action="#" >
+                                <form action="{{route('bills.changeTVSub')}}" method="post" >
                                     @csrf
                                 <div id="discotypeID" class="form-group">
                                     <label for="discotypeID" class=" requiredField">
@@ -26,28 +26,34 @@
                                     <div class="">
                                         <input type="text" name="na" value="{{$input['name']}}" class="form-control" readonly>
                                     </div>
+                                </div>
+
+                                <div id="discotypeID" class="form-group">
                                     <label for="discotypeID" class=" requiredField">
-                                        TV
+                                        TV Type
                                     </label>
                                     <div class="">
                                         <input type="text" name="network" value="{{$input['network']}}" class="form-control" readonly>
                                     </div>
                                 </div>
 
-                                <label for="metertypeID" class=" requiredField">
-                                  IUC Number
-                                    <span class="asteriskField">*</span>
-                                </label>
-                                <div class="">
-                                    <input class="form-control text-success" type="text" name="phone"   value="{{$input['phone']}}" autocomplete="on" size="20" readonly>
+                                <div id="discotypeID" class="form-group">
+                                    <label for="metertypeID" class=" requiredField">
+                                      IUC Number
+                                        <span class="asteriskField">*</span>
+                                    </label>
+                                    <div class="">
+                                        <input class="form-control text-success" type="text" name="phone"   value="{{$input['phone']}}" autocomplete="on" size="20" readonly>
 
+                                    </div>
                                 </div>
+
+                                <div id="discotypeID" class="form-group">
                                     <label for="discotypeID" class=" requiredField">
                                         Select Month
                                     </label>
                                     <div class="">
                                         <select name="period" class="text-success  form-control" required>
-                                            <option selected="">---------</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -62,14 +68,16 @@
                                             <option value="12">12</option>
                                         </select>
                                     </div>
+                                </div>
+
+                                <div id="discotypeID" class="form-group">
                                     <label for="discotypeID" class=" requiredField">
-                                        Select Your Tv Plan
+                                        Select Your Tv bouquet type
                                     </label>
                                     <div class="">
                                         <select name="code" class="text-success  form-control" required>
                                             @foreach($rep1 as $jv)
-                                            <option selected="">---------</option>
-                                            <option value="{{$jv['code']}}">{{$jv['name']}}</option>
+                                                <option value="{{$jv['code']}}">{{$jv['name']}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -83,7 +91,7 @@
                             <div class="col-12 col-md-6 col-lg-4 d-flex">
 {{--                                                                                                       <button id="btnv" type="button" onclick="showUser()" class="btn btn-rounded btn-success"> Verify </button>--}}
                                                                 <button type="submit" class="btn"
-                                                                        style="color: white;background-color: #048047"> Renew Plan</button>
+                                                                        style="color: white;background-color: #048047"> Submit</button>
                             </div>
                             {{--                                    <div class="col-12 col-md-6 col-lg-4 d-flex">--}}
                             {{--                                    <button type="submit" class="btn"--}}

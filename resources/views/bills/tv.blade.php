@@ -25,8 +25,7 @@
                                             </label>
                                             <div class="">
                                                 <select name="network" class="text-success  form-control" required="" >
-                                                    <option selected="">---------</option>
-                                                    <option value="gotv">Gotv</option>
+                                                    <option value="gotv" selected>Gotv</option>
                                                     <option value="dstv">Dstv</option>
                                                     <option value="startimes">Startime</option>
 
@@ -43,7 +42,7 @@
                                             </div>
                                         </div>
 {{--                                        <button id="btnv" type="button" onclick="showUser()" class="btn btn-rounded btn-success"> Verify </button>--}}
-                                        <button type="submit" class="btn"
+                                        <button type="submit" class="btn mt-3"
                                                 style="color: white;background-color: #048047"> Continue </button>
                                     </form>
                                 </div>

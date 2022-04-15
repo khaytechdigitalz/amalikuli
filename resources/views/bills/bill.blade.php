@@ -1,20 +1,6 @@
 @extends('layouts.sidebar')
-<br>
-<br>
 @section('content')
 
-@if(isset($mg))
-    <script>alert('{{$mg}}');
-        window.location='{{ route('dashboard') }}';
-    </script>
-@endif
-
-
-@if(!isset($rep))
-    <script>alert('{{$mg}}');
-        window.location='{{ route('dashboard') }}';
-    </script>
-@else
     <style>
         body {
             text-align: center;
@@ -61,7 +47,7 @@
         }
     </style>
     <body>
-    <div class='card'>
+    <div class='card mt-5'>
      <div class='card-body'>
         @if($rep = 'success')
             <div style='border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;'>
@@ -70,23 +56,20 @@
             <h1>Success</h1>
         @elseif($rep != 'success')
             <div style='border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;'>
-                <f class='checkmark'>x</f>
+                <span class='checkmark'>x</span>
             </div>
             <h2>Fail</h2>
 
         @endif
 
         @if(isset($am) && isset($ph))
-            <p>{{$am}} {{$ph}}<br/> Thanks</p>
+            <p>{{$am}} <br/> {{$ph}}<br/> Thanks</p>
             <a href='{{route('dashboard')}}'><button type='button' class='btn btn-outline-success'>Continue</button></a>
         @else
-            <p>Dupllicate Transaction<br/> Thanks</p>
+            <p>Duplicate Transaction<br/> Thanks</p>
             <a href='{{route('dashboard')}}'><button type='button' class='btn btn-outline-success'>Continue</button></a>
         @endif
     </div>
-
-    </body>
-@endif
 @endsection
 
 

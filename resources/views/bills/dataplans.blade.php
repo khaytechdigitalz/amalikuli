@@ -1,6 +1,14 @@
 @extends('layouts.sidebar')
 
 @section('content')
+    <script>
+        function myNewFunction(sel) {
+            // alert(sel.options[sel.selectedIndex].id);
+            document.getElementById("po").value = (sel.options[sel.selectedIndex].id);
+            document.getElementById("pk").value = (sel.options[sel.selectedIndex].text);
+        }
+    </script>
+
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="row justify-content-lg-center">
@@ -22,7 +30,16 @@
                             <div class="box w3-card-4">
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
-                                <form action="{{route('bills.buydata')}}">
+                                <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
+
+                                @if (session('status'))
+                                    <div class="mb-4 font-medium text-sm text-green-600">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+
+
+                                <form action="{{route('bills.buydata')}}" method="post">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-8">
@@ -36,18 +53,9 @@
 
                                                     <input type="hidden" name="network" value="{{$network}}">
                                                     <div class="mb-3">
-                                                        <script>
-                                                            function myNewFunction(sel) {
-                                                                // alert(sel.options[sel.selectedIndex].id);
-                                                                document.getElementById("po").value = (sel.options[sel.selectedIndex].id);
-                                                                document.getElementById("pk").value = (sel.options[sel.selectedIndex].text);
-
-                                                            }
-                                                        </script>
-                                                        <select name="datacode"   class="text-success form-control"  onChange="myNewFunction(this);" required="">
+                                                        <select name="datacode" class="text-success form-control"  onChange="myNewFunction(this);" required="">
                                                             @foreach($rep as $provider)
-                                                                <option>-------------</option>
-                                                                <option value="{{$provider['datacode']}}" id="{{$provider['price']}}" >{{$provider['name']}}--₦{{$provider['price']}} {{$provider['datacode']}}</option>
+                                                                <option value="{{$provider['datacode']}}" id="{{$provider['price']}}" >{{$provider['name']}} ₦{{$provider['price']}}</option>
                                                             @endforeach
                                                         </select>
                                                         <input type="hidden" name="name" id="pk" value="" >
@@ -77,7 +85,7 @@
                                                                                                     </label>
                                                                                                     <div class="form-group">
                                                                                                         <input name="amount"
-                                                                                                               class="text-success form-control" placeholder="Amount"
+                                                                                                               class="text-success form-control" value="{{$rep[0]['price']}}" placeholder="Amount"
                                                                                                                id="po" readonly>
                                                                                                     </div>
                                                                                                 </div>

@@ -22,7 +22,15 @@
                             <div class="box w3-card-4">
                                 <span class="text-muted mt-3 mb-4 text-center" style="font-size: x-small">Complete your payment information</span>
 
-                                <form action="{{route('bill')}}" method="POST">
+                                <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
+
+                                @if (session('status'))
+                                    <div class="mb-4 font-medium text-sm text-green-600">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+
+                                <form action="{{route('buyAirtime')}}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-8">

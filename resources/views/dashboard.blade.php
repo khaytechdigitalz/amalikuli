@@ -31,7 +31,7 @@
 
                 <div class="col-xl-4 col-sm-6 col-12">
 
-               
+
 
 
                     <div class="card">
@@ -126,7 +126,7 @@
                     <div class="row">
                         <h5 class="text-secondary">Recent 10 Transactions</h5>
                         <!-- search -->
-                         
+
                         </div>
 
                         <div class="row">
@@ -154,7 +154,11 @@
                                                         </td>
 
                                                         <td>
-                                                            {{$tran->sub_agent}}
+                                                            {{$tran->uuid}}
+                                                        </td>
+
+                                                        <td>
+                                                            {{$tran->type}}
                                                         </td>
 
                                                         <td>
@@ -166,7 +170,12 @@
                                                         </td>
 
                                                         <td>
-                                                            {{$tran->status}}
+                                                            @if($tran->status == 1)
+                                                                successful
+                                                            @else
+                                                                failed
+                                                            @endif
+
                                                         </td>
 
                                                         <td>

@@ -121,25 +121,30 @@ Route::get('/bill-payment', function (){
 });
 
 
-Route::get('/bills/tv', function () {
-    return view('bills/tv');
-});
+
+
+Route::get('transfer', [VFDController::class, 'bankList'])->name('transfer');
+
+
 Route::get('/bills/airtime', function () {
     return view('bills/airtime');
 })->name('bills.airtime');
+Route::post('buyAirtime', [BillsPaymentController::class, 'buyAirtime'])->name('buyAirtime');
 
-Route::get('transfer', [VFDController::class, 'bankList'])->name('transfer');
-Route::post('bill', [BillsPaymentController::class, 'buyAirtime'])->name('bill');
 Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.data');
 Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->name('bills.dataplans');
-Route::get('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
+Route::post('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
+
+Route::get('/bills/tv', function () {
+    return view('bills/tv');
+})->name('bills.tv');
+Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
 Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
+Route::post('bills/changeTVSub', [BillsPaymentController::class, 'changeTVSub'])->name('bills.changeTVSub');
+
 Route::get('bills/elect', [BillsPaymentController::class, 'electricityList'])->name('bills.elect');
 Route::post('biils/verifyelect', [BillsPaymentController::class, 'validateElectricity'])->name('bills.verifyelect');
-
-Route::get('bills/pay', [BillsPaymentController::class, 'purchaseElectricity'])->name('bills.pay');
-
-Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
+Route::post('bills/pay', [BillsPaymentController::class, 'purchaseElectricity'])->name('bills.pay');
 
 Route::post('verify', [VFDController::class, 'validateBankAccount'])->name('verify');
 

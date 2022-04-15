@@ -29,19 +29,28 @@
                                     </div>
                                     <div id="electPanel">
                                         <div class="alert alert-danger">0.1% discount apply.</div>
-                                        <label  class="requiredField">
-                                            Meter Name
-                                            <span class="asteriskField">*</span>
-                                        </label>
+
+                                        <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
+
+                                        @if (session('status'))
+                                            <div class="mb-4 font-medium text-sm text-green-600">
+                                                {{ session('status') }}
+                                            </div>
+                                        @endif
 
 
-                                        <form action="{{url('bills/pay')}}" >
-{{--                                            @csrf--}}
+                                        <form action="{{url('bills/pay')}}" method="post" >
+                                            @csrf
 
-                                            <div class="">
+                                            <div class="form-group">
+                                                <label class="requiredField">
+                                                    Meter Name
+                                                    <span class="asteriskField">*</span>
+                                                </label>
                                                 <input type="text" class="form-control" value="{{$rep1['name']}}" readonly/>
                                             </div>
-                                            <div  class="form-group">
+
+                                            <div class="form-group">
                                                 <label  class="requiredField">
                                                     Meter Number
                                                     <span class="asteriskField">*</span>
@@ -60,7 +69,9 @@
                                                     <input type="number" class="form-control" min="11" name="phone" required/>
                                                 </div>
                                             </div>
-                                            <label for="metertypeID" class=" requiredField">
+
+                                            <div id="metertypeID" class="form-group">
+                                                <label class=" requiredField">
                                                     Amount
                                                     <span class="asteriskField">*</span>
                                                 </label>
@@ -68,7 +79,7 @@
                                                     <input type="number" class="form-control" min="11" name="amount" required/>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn process"
+                                            <button type="submit" class="btn process mt-3"
                                                     style="color: white;background-color: #13b10d;margin-bottom:15px;">Purchase Electricity
                                             </button>
                                             <!--                        <button type="button" id="verify" class=" btn" style="margin-bottom:15px;">  <span id="process"><i class="fa fa-circle-o-notch fa-spin " style="font-size: 30px;animation-duration: 1s;"></i> Validating Please wait </span>  <span id="displaytext">Validate Meter Number </span></button>-->

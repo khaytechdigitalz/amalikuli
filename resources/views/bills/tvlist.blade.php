@@ -29,15 +29,14 @@
                                         </div>
 
                                         <label for="metertypeID" class=" requiredField">
-                                           Current Plan
-                                            <span class="asteriskField">*</span>
+                                           Current Plan <span class="badge badge-info">Due Date: {{explode("T",$rep4)[0]}}</span>
                                         </label>
-                                        <div class="">
-                                            <input class="form-control text-success" type="text"   value="{{$rep2}}" autocomplete="on" size="20" readonly>
+
+                                        <div class="mt-4">
+                                            <input class="form-control text-success" type="text" value="{{$rep2}} - N{{$rep3}}" autocomplete="on" size="20" readonly>
                                         </div>
                                 </div>
                             </div>
-
 
 {{--                                <center>--}}
 {{--                                    <section class="comp-section comp-cards">--}}
@@ -47,14 +46,16 @@
 {{--                                <button type="submit" class="btn"--}}
 {{--                                        style="color: white;background-color: #048047"> Renew Plan</button>--}}
                                 </div>
+
                                 <form action="{{route('bills.list')}}" method="post">
                                     @csrf
                                     <input type="hidden" name="network" value="{{$input['network']}}">
                                     <input type="hidden" name="phone" value="{{$input['phone']}}">
                                     <input type="hidden" name="name" value="{{$rep1}}">
+
                                     <div class="col-12 col-md-6 col-lg-4 d-flex">
-                                    <button type="submit" class="btn"
-                                       style="color: white;background-color: #048047"> Change Plan</button>
+                                        <button type="submit" class="btn mt-3"
+                                           style="color: white; background-color: #048047"> Change Plan</button>
                                     </div>
                                 </form>
 {{--                                    <div class="col-12 col-md-6 col-lg-4 d-flex">--}}
