@@ -53,15 +53,16 @@
                                     <input type="hidden" name="phone" value="{{$input['phone']}}">
                                     <input type="hidden" name="name" value="{{$rep1}}">
 
-                                    <div class="col-12 col-md-6 col-lg-4 d-flex">
-                                        <button type="submit" class="btn mt-3"
+                                        <button type="submit" class="btn"
                                            style="color: white; background-color: #048047"> Change Plan</button>
-                                    </div>
+
+                                    <button type="button" class="btn"
+                                            style="color: white;background-color: #048047" onclick="window.location.href ='http://127.0.0.1:8000/bills/renewtv?network={{$input['network']}}&amount={{$rep3}}&number={{$input['phone']}}&period={{$rep5}}';"> Renew Plan</button>
+
                                 </form>
-{{--                                    <div class="col-12 col-md-6 col-lg-4 d-flex">--}}
-{{--                                    <button type="submit" class="btn"--}}
-{{--                                        style="color: white;background-color: #048047"> Upgrade Plan</button>--}}
-                                </div>
+
+
+
 {{--                                </form>--}}
                             </div>
 {{--                                    </section>--}}

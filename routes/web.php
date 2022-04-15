@@ -139,6 +139,7 @@ Route::get('/bills/tv', function () {
     return view('bills/tv');
 })->name('bills.tv');
 Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
+Route::get('bills/renewtv', [BillsPaymentController::class, 'renewTV'])->name('bills.renewtv');
 Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
 Route::post('bills/changeTVSub', [BillsPaymentController::class, 'changeTVSub'])->name('bills.changeTVSub');
 

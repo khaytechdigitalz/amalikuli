@@ -352,7 +352,7 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
 //        echo $response;
-
+//return $response;
         $rep = json_decode($response, true);
 
         $rep1 = $rep['data']['user']['name'];
@@ -361,14 +361,16 @@ class BillsPaymentController extends Controller
             $rep2 = $rep['data']['user']['currentBouquet'];
             $rep3 = $rep['data']['user']['currentBouquetRaw']['amount'];
             $rep4 = $rep['data']['user']['rawOutput']['dueDate'];
+            $rep5 = $rep['data']['user']['rawOutput']['invoicePeriod'];
 
         } else {
             $rep2 = null;
             $rep3 = null;
             $rep4 = null;
+            $rep5 = null;
         }
 
-        return view('bills.tvlist', compact('rep1', 'rep2', 'rep3','rep4', 'input'));
+        return view('bills.tvlist', compact('rep1', 'rep2', 'rep3','rep4', 'rep5', 'input'));
 
 
     }
@@ -389,6 +391,8 @@ class BillsPaymentController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+
 
         $ref = rand();
         $agentid = "plan";
@@ -423,7 +427,47 @@ class BillsPaymentController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+//        echo $response;
+        return $response;
+
+        $rep = json_decode($response, true);
+
+        if ($rep['status'] != 'success') {
+
+            $zo = $wallet->balance + $amount;
+            $wallet->balance = $zo;
+            $wallet->save();
+
+            $mg = $rep['message'];
+            return redirect()->route('bills.data')->withErrors($mg);
+        }
+
+        bill_payment::create([
+            'user_id' => Auth::id(),
+            'services' => 'data',
+            'network' => $request->network,
+            'amount' => $request->amount,
+            'number' => $request->phone,
+            'server_res' => $response,
+            'ref' => $ref,
+        ]);
+
+        Transaction::create([
+            'user_id' => Auth::id(),
+            'uuid' => Auth::user()->uuid,
+            'reference' => $ref,
+            'type' => 'debit',
+            'remark' => $rep['data']['transactionMessage'],
+            'amount' => $amount,
+            'previous' => $wallet->balance,
+            'balance' => $gt
+        ]);
+
+        $name = $request->network;
+        $am = "$request->name  Was Successful To";
+        $ph = $request->phone;
+
+        return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
 
     }
 
