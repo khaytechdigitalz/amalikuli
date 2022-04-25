@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('transfer-test', [VFDController::class, 'accountTransfer'])->name('accountTransfer');
+Route::get('transfer-test', [VFDController::class, 'accountTransfer']);
+Route::get('transfer-validate-test', [VFDController::class, 'validateBankAccount']);
 
 Route::get('/bankList', [\App\Http\Controllers\VFDController::class, 'bankList'])->name('bankList');
 
