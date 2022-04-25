@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
 use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -95,7 +96,9 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
         //    echo $response;
-        //return $response;
+
+//        echo env('BAXI_URL') . 'services/airtime/request';
+        return $response;
 
         $rep = json_decode($response, true);
 
@@ -176,6 +179,9 @@ class BillsPaymentController extends Controller
 
         $rep1 = json_decode($response, true);
 
+//        echo env('BAXI_URL') . 'services/databundle/bundles';
+//
+//return $rep1;
         $rep = $rep1['data'];
 
         return view('bills.dataplans', compact('rep', 'network'));
@@ -272,6 +278,10 @@ class BillsPaymentController extends Controller
 
         $rep = json_decode($response, true);
 
+//        echo  env('BAXI_URL') . 'services/databundle/request';
+
+
+//return $rep;
         if ($rep['status'] != 'success') {
 
             $zo = $wallet->balance + $amount;
@@ -300,7 +310,7 @@ class BillsPaymentController extends Controller
             'remark' => $rep['data']['transactionMessage'],
             'amount' => $amount,
             'previous' => $wallet->balance,
-            'balance' => $gt
+            'balance' => $gt,
         ]);
 
         $name = $request->network;
@@ -352,7 +362,8 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
 //        echo $response;
-//return $response;
+//        echo env('BAXI_URL') . 'services/namefinder/query';
+
         $rep = json_decode($response, true);
 
         $rep1 = $rep['data']['user']['name'];
@@ -428,7 +439,9 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
 //        echo $response;
-        return $response;
+
+//        echo env('BAXI_URL') . 'services/multichoice/request';
+//        return $response;
 
         $rep = json_decode($response, true);
 
@@ -512,6 +525,8 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
 //        echo $response;
+//echo  env('BAXI_URL') . 'services/multichoice/list';
+//        return $response;
         $rep = json_decode($response, true);
 
         $rep1 = $rep['data'];
@@ -611,7 +626,8 @@ class BillsPaymentController extends Controller
 
         curl_close($curl);
 //        echo $response;
-
+//        echo   env('BAXI_URL') . 'services/electricity/billers';
+//return $response;
         $rep = json_decode($response, true);
 
         $rep1 = $rep['data']['providers'];
@@ -662,8 +678,8 @@ class BillsPaymentController extends Controller
         curl_close($curl);
 //        echo $response;
         $rep = json_decode($response, true);
-
-
+//echo  env('BAXI_URL') . 'services/namefinder/query';
+//return $response;
         $rep1 = $rep['data']['user'];
 //        return $rep1;
 
@@ -688,40 +704,11 @@ class BillsPaymentController extends Controller
                 ->withInput();
         }
 
-        $user = User::find($request->user()->id);
-        $wallet = wallet::where('user_id', $user->id)->first();
+
 
         $ref = rand();
         $agentid = "plan";
-        $amount = $request->amount;
 
-
-        if ($amount < 100) {
-            $mg = "Minimum amount is 100. Kindly increase amount and try again";
-            return back()->withErrors($mg);
-        }
-
-        if ($wallet->balance < 1) {
-            $mg = "Insufficient balance. Kindly topup and try again";
-            return back()->withErrors($mg);
-        }
-
-        if ($wallet->balance < $amount) {
-            $mg = "You Cant Make Purchase Above" . "NGN" . $amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet.";
-            return back()->withErrors($mg);
-        }
-
-        $bo = bill_payment::where('ref', $ref)->first();
-
-        if ($bo) {
-            $mg = "Suspected duplicate transaction";
-            return back()->withErrors($mg);
-        }
-
-        $tf = $wallet->balance - $amount;
-
-        $wallet->balance = $tf;
-        $wallet->save();
 
                 $curl = curl_init();
 
@@ -754,6 +741,16 @@ class BillsPaymentController extends Controller
 
                 curl_close($curl);
 //                echo $response;
+//        echo  env('BAXI_URL') . 'services/electricity/request';
+        return '{
+    "phone" : "' . $input['phone'] . '",
+    "amount" : "' . $input['amount'] . '",
+    "account_number": "' . $input['number'] . '",
+    "service_type": "' . $input['network'] . '",
+    "agentReference": "' . $ref . '",
+    "agentId": "' . $agentid . '"
+}';
+
                 $rep1 = json_decode($response, true);
 
                 $rep = $rep1['data'];

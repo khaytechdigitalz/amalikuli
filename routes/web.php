@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('transfer-test', [VFDController::class, 'accountTransfer'])->name('accountTransfer');
 
 Route::get('/bankList', [\App\Http\Controllers\VFDController::class, 'bankList'])->name('bankList');
 
@@ -51,6 +50,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
+    Route::post('vpay', [VFDController::class, 'accountTransfer'])->name('vpay');
+
+    Route::post('pay', [VFDController::class, 'accountTransfer12'])->name('pay');
 
     Route::get('add-sub-agent', function () {
         return view('add-agent');
