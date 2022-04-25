@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\bill_payment;
+use App\Models\Transaction;
+use App\Models\transfer;
+use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VFDController extends Controller
 {
@@ -108,7 +114,14 @@ class VFDController extends Controller
 
         curl_close($curl);
 //        echo $response;
-        return $response;
+//        return $response;
+
+        $rep = json_decode($response, true);
+        $bvn=$rep['data']['bvn'];
+        $idc=$rep['data']['account']['id'];
+        $rep1=$rep['data']['name'];
+        return view('verify', compact( 'rep1', 'request', 'bvn', 'idc'));
+
     }
 
     public function accountEnquiry(Request  $request){
@@ -147,7 +160,7 @@ class VFDController extends Controller
         return $response;
     }
 
-    public function accountTransfer(Request  $request){
+    public function accountTransfer12(Request  $request){
 //return $request;
 //        $bankCode=$request->bankcode;
 //        $accountNumber=$request->number;
@@ -196,6 +209,47 @@ class VFDController extends Controller
   "toSavingsId": ""
 }';
 
+        $user = User::find($request->user()->id);
+        $wallet = wallet::where('user_id', $user->id)->first();
+
+//        $ref = Auth::id() . uniqid();
+        $agentid = "plan";
+        $amount = $request->amount;
+
+
+        if ($amount < 100) {
+            $mg = "Minimum amount is 100. Kindly increase amount and try again";
+            return redirect()->route('verify')->withErrors($mg);
+        }
+
+        if ($wallet->balance < 1) {
+            $mg = "Insufficient balance. Kindly topup and try again";
+            return redirect()->route('verify')->withErrors($mg);
+        }
+
+        if ($amount < 1) {
+            $mg = "error transaction";
+            return redirect()->route('verify')->withErrors($mg);
+        }
+
+        if ($wallet->balance < $amount) {
+            $mg = "You Cant Make Purchase Above" . "NGN" . $amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet.";
+            return redirect()->route('verify')->withErrors($mg);
+        }
+
+        $bo = transfer::where('refid', $request->refe)->first();
+
+        if ($bo) {
+            $mg = "Suspected duplicate transaction";
+            return redirect()->route('verify')->withErrors($mg);
+        }
+
+        $gt = $wallet->balance - $request->amount;
+
+        $wallet->balance = $gt;
+        $wallet->save();
+
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -218,8 +272,32 @@ class VFDController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-//        echo $response;
-        return $response;
+        echo $response;
+//        return $response;
+        $rep = json_decode($response, true);
+
+        $pa=$rep['data'];
+
+
+        transfer::create([
+            'userid' => Auth::id(),
+            'bankcode' => $request->bankcode,
+            'amount' => $request->amount,
+            'account_no' => $request->number,
+            'narration' => $request->narration,
+            'refid' => $request->refe,
+        ]);
+
+        Transaction::create([
+            'user_id' => Auth::id(),
+            'uuid' => Auth::user()->uuid,
+            'reference' => $request->refe,
+            'type' => 'debit',
+            'remark' => $rep['data'],
+            'amount' => $request->amount,
+            'previous' => $wallet->balance,
+            'balance' => $gt,
+        ]);
     }
 
 
