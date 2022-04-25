@@ -73,6 +73,8 @@ class VFDController extends Controller
 
         curl_close($curl);
 //        echo $response;
+//        echo env('VFD_URL').'vfd-wallet/1.1/wallet2/bank';
+//        return $response;
         $rep = json_decode($response, true);
 
         $rep1=$rep['data']['bank'];
@@ -114,6 +116,7 @@ class VFDController extends Controller
 
         curl_close($curl);
 //        echo $response;
+//        echo  env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=inter&accountNo='.$accountNumber.'&bank='.$bankCode.'&wallet-credentials='.env('VFD_AUTH');
 //        return $response;
 
         $rep = json_decode($response, true);
@@ -209,6 +212,8 @@ class VFDController extends Controller
   "toSavingsId": ""
 }';
 
+//        echo $payload;
+//        return $request;
         $user = User::find($request->user()->id);
         $wallet = wallet::where('user_id', $user->id)->first();
 
@@ -273,6 +278,7 @@ class VFDController extends Controller
 
         curl_close($curl);
         echo $response;
+//        echo  env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer?source=pool&wallet-credentials='.env('VFD_AUTH');
 //        return $response;
         $rep = json_decode($response, true);
 
@@ -288,16 +294,22 @@ class VFDController extends Controller
             'refid' => $request->refe,
         ]);
 
-        Transaction::create([
-            'user_id' => Auth::id(),
-            'uuid' => Auth::user()->uuid,
-            'reference' => $request->refe,
-            'type' => 'debit',
-            'remark' => $rep['data'],
-            'amount' => $request->amount,
-            'previous' => $wallet->balance,
-            'balance' => $gt,
-        ]);
+//        Transaction::create([
+//            'user_id' => Auth::id(),
+//            'uuid' => Auth::user()->uuid,
+//            'reference' => $request->refe,
+//            'type' => 'debit',
+//            'remark' => $rep['data'],
+//            'amount' => $request->amount,
+//            'previous' => $wallet->balance,
+//            'balance' => $gt,
+//        ]);
+        $name = 'Transfer';
+        $am = "$request->amount  Was Successful Transfer To";
+        $ph = $request->number;
+
+        return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
+
     }
 
 
