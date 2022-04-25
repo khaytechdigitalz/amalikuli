@@ -79,7 +79,7 @@
                                             @foreach($rep1 as $jv)
                                                 <option value="{{$jv['code']}}">{{$jv['name']}}</option>
                                             @endforeach
-                                        </select>
+                                         </select>
                                     </div>
                             </div>
                         </div>
