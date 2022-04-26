@@ -98,7 +98,7 @@ class BillsPaymentController extends Controller
         //    echo $response;
 
 //        echo env('BAXI_URL') . 'services/airtime/request';
-        return $response;
+//        return $response;
 
         $rep = json_decode($response, true);
 
@@ -402,11 +402,46 @@ class BillsPaymentController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
-
-
         $ref = rand();
         $agentid = "plan";
+        $user = User::find($request->user()->id);
+        $wallet = wallet::where('user_id', $user->id)->first();
+        $amount = $request->amount;
+
+
+        if ($amount < 100) {
+            $mg = "Minimum amount is 100. Kindly increase amount and try again";
+            return redirect()->route('bills.tvlist')->withErrors($mg);
+        }
+
+        if ($wallet->balance < 1) {
+            $mg = "Insufficient balance. Kindly topup and try again";
+            return redirect()->route('bills.tvlist')->withErrors($mg);
+        }
+
+        if ($amount < 1) {
+            $mg = "error transaction";
+            return redirect()->route('bills.tvlist')->withErrors($mg);
+        }
+
+        if ($wallet->balance < $amount) {
+            $mg = "You Cant Make Purchase Above" . "NGN" . $amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet.";
+            return redirect()->route('bills.tvlist')->withErrors($mg);
+        }
+
+        $bo = bill_payment::where('ref', $ref)->first();
+
+        if ($bo) {
+            $mg = "Suspected duplicate transaction";
+            return redirect()->route('bills.data')->withErrors($mg);
+        }
+
+        $gt = $wallet->balance - $amount;
+
+        $wallet->balance = $gt;
+        $wallet->save();
+
+
 
         $curl = curl_init();
 
@@ -452,7 +487,7 @@ class BillsPaymentController extends Controller
             $wallet->save();
 
             $mg = $rep['message'];
-            return redirect()->route('bills.data')->withErrors($mg);
+            return redirect()->route('bills.tvlist')->withErrors($mg);
         }
 
         bill_payment::create([
@@ -460,7 +495,7 @@ class BillsPaymentController extends Controller
             'services' => 'data',
             'network' => $request->network,
             'amount' => $request->amount,
-            'number' => $request->phone,
+            'number' => $input['number'],
             'server_res' => $response,
             'ref' => $ref,
         ]);
@@ -471,7 +506,7 @@ class BillsPaymentController extends Controller
             'reference' => $ref,
             'type' => 'debit',
             'remark' => $rep['data']['transactionMessage'],
-            'amount' => $amount,
+            'amount' => $input['amount'],
             'previous' => $wallet->balance,
             'balance' => $gt
         ]);
@@ -742,14 +777,7 @@ class BillsPaymentController extends Controller
                 curl_close($curl);
 //                echo $response;
 //        echo  env('BAXI_URL') . 'services/electricity/request';
-        return '{
-    "phone" : "' . $input['phone'] . '",
-    "amount" : "' . $input['amount'] . '",
-    "account_number": "' . $input['number'] . '",
-    "service_type": "' . $input['network'] . '",
-    "agentReference": "' . $ref . '",
-    "agentId": "' . $agentid . '"
-}';
+
 
                 $rep1 = json_decode($response, true);
 
