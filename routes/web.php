@@ -19,8 +19,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('transfer-test', [VFDController::class, 'accountTransfer']);
-Route::get('transfer-validate-test', [VFDController::class, 'validateBankAccount']);
 
 Route::get('/bankList', [\App\Http\Controllers\VFDController::class, 'bankList'])->name('bankList');
 
@@ -52,6 +50,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
+    Route::post('vpay', [VFDController::class, 'accountTransfer'])->name('vpay');
+
+    Route::post('pay', [VFDController::class, 'accountTransfer12'])->name('pay');
 
     Route::get('add-sub-agent', function () {
         return view('add-agent');
@@ -141,6 +142,7 @@ Route::get('/bills/tv', function () {
     return view('bills/tv');
 })->name('bills.tv');
 Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
+Route::get('bills/renewtv', [BillsPaymentController::class, 'renewTV'])->name('bills.renewtv');
 Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
 Route::post('bills/changeTVSub', [BillsPaymentController::class, 'changeTVSub'])->name('bills.changeTVSub');
 
