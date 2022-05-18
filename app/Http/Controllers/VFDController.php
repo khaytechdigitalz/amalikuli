@@ -291,7 +291,7 @@ class VFDController extends Controller
             'amount' => $request->amount,
             'account_no' => $request->number,
             'narration' => $request->narration,
-            'refid' => $request->refe,
+            'refid' => $reference,
         ]);
 
 //        Transaction::create([

@@ -53,12 +53,12 @@
                                                             <div class="form-group">
                                                                 <label for="amount">Narration</label>
                                                                 <input type="text" name="narration" class="form-control"
-                                                                       placeholder="Transfer From" required>
+                                                                       placeholder="Narration" required>
                                                             </div>
 
                                                             <div class="form-group">
                                                                 <label>Enter Amount</label>
-                                                                <input  type="number"  class="form-control"  name="amount" required>
+                                                                <input type="number"  class="form-control" placeholder="e.g 100"  name="amount" required>
                                                             </div>
                                                         </div>
                                                     </div>

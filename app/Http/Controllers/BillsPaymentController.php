@@ -34,7 +34,7 @@ class BillsPaymentController extends Controller
         $wallet = wallet::where('user_id', $user->id)->first();
 
         $ref = Auth::id() . uniqid();
-        $agentid = "plan";
+        $agentid = "Amali";
         $amount = $request->amount;
 
 
@@ -98,7 +98,7 @@ class BillsPaymentController extends Controller
         //    echo $response;
 
 //        echo env('BAXI_URL') . 'services/airtime/request';
-//        return $response;
+        return $response;
 
         $rep = json_decode($response, true);
 
