@@ -85,11 +85,11 @@ class VFDController extends Controller
 
     public function validateBankAccount(Request  $request){
 //return $request;
-//        $bankCode=$request->bankcode;
-//        $accountNumber=$request->number;
+        $bankCode=$request->bankcode;
+        $accountNumber=$request->number;
 
-        $bankCode="999058";
-        $accountNumber="0001744830";
+//        $bankCode="999058";
+//        $accountNumber="0001744830";
 
         $auth=$this->auth_init();
         $token=$auth['access_token'];
@@ -165,29 +165,29 @@ class VFDController extends Controller
 
     public function accountTransfer12(Request  $request){
 //return $request;
-//        $bankCode=$request->bankcode;
-//        $accountNumber=$request->number;
-//        $accountBVN=$request->accountbvn;
-//        $accountName=$request->accountname;
-//        $amount=$request->amount;
-//        $narration=$request->narration;
-//        $sessionID=$request->sessionID;
+        $bankCode=$request->bankcode;
+        $accountNumber=$request->number;
+        $accountBVN=$request->accountbvn;
+        $accountName=$request->accountname;
+        $amount=$request->amount;
+        $narration=$request->narration;
+        $sessionID=$request->sessionID;
 
         //for test
-        $bankCode="999058";
-        $accountNumber="0001744830";
-        $accountBVN="22222222223";
-        $accountName="OGBA, CHRISTOPHER CHINONYE";
-        $amount="100";
-        $narration="test trf";
-        $sessionID="999116190411110815131298994293";
+//        $bankCode="999058";
+//        $accountNumber="0001744830";
+//        $accountBVN="22222222223";
+//        $accountName="OGBA, CHRISTOPHER CHINONYE";
+//        $amount="100";
+//        $narration="test trf";
+//        $sessionID="999116190411110815131298994293";
 
 
         $auth=$this->auth_init();
         $token=$auth['access_token'];
 
         $fromAccount=env("VFD_TRANSFER_ACCOUNTNO");
-        $reference=env('VFD_TRANSFER_CLIENT')."-".uniqid();
+        $reference="amali-inclusion-".uniqid();
 
         $signature=hash('sha512', $fromAccount.$accountNumber);
 
@@ -277,10 +277,13 @@ class VFDController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
 //        echo  env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer?source=pool&wallet-credentials='.env('VFD_AUTH');
 //        return $response;
         $rep = json_decode($response, true);
+
+        if($rep['status'] != "00"){
+            return redirect()->route('verify')->withErrors("Transfer not successful. Try again later");
+        }
 
         $pa=$rep['data'];
 
@@ -304,8 +307,8 @@ class VFDController extends Controller
 //            'previous' => $wallet->balance,
 //            'balance' => $gt,
 //        ]);
-        $name = 'Transfer';
-        $am = "$request->amount  Was Successful Transfer To";
+        $name = "Reference: $reference. Transfer";
+        $am = "$request->amount was successfully transferred to";
         $ph = $request->number;
 
         return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));

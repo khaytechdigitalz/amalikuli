@@ -209,7 +209,7 @@ class BillsPaymentController extends Controller
         $wallet = wallet::where('user_id', $user->id)->first();
 
         $ref = Auth::id() . uniqid();
-        $agentid = "plan";
+        $agentid = "Amali";
         $amount = $request->amount;
 
 
@@ -403,7 +403,7 @@ class BillsPaymentController extends Controller
                 ->withInput();
         }
         $ref = rand();
-        $agentid = "plan";
+        $agentid = "Amali";
         $user = User::find($request->user()->id);
         $wallet = wallet::where('user_id', $user->id)->first();
         $amount = $request->amount;
@@ -600,7 +600,7 @@ class BillsPaymentController extends Controller
         }
 
         $ref = rand();
-        $agentid = "plan";
+        $agentid = "Amali";
 
         $curl = curl_init();
 
@@ -742,7 +742,7 @@ class BillsPaymentController extends Controller
 
 
         $ref = rand();
-        $agentid = "plan";
+        $agentid = "Amali";
 
 
                 $curl = curl_init();
