@@ -59,16 +59,10 @@
                 <span class='checkmark'>x</span>
             </div>
             <h2>Fail</h2>
-
         @endif
 
-        @if(isset($am) && isset($ph))
-            <p>{{$am}} <br/> {{$ph}}<br/> Thanks</p>
+            <p>{{$am}}<br/> Thanks</p>
             <a href='{{route('dashboard')}}'><button type='button' class='btn btn-outline-success'>Continue</button></a>
-        @else
-            <p>Duplicate Transaction<br/> Thanks</p>
-            <a href='{{route('dashboard')}}'><button type='button' class='btn btn-outline-success'>Continue</button></a>
-        @endif
     </div>
 @endsection
 

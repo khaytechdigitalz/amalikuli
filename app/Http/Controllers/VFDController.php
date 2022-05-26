@@ -9,10 +9,12 @@ use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class VFDController extends Controller
 {
-    public function createWallet(){
+    public function createWallet()
+    {
 
 
         $curl = curl_init();
@@ -46,15 +48,23 @@ class VFDController extends Controller
 
     }
 
-    public function bankList(){
+    public function bankList()
+    {
 
-        $auth=$this->auth_init();
-        $token=$auth['access_token'];
+        $auth = $this->auth_init();
+        $token = $auth['access_token'];
+
+        if (env('VFD_MODE') == 0) {
+            $baseurl = env('VFD_URL_TEST');
+        } else {
+            $baseurl = env('VFD_URL');
+        }
+
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('VFD_URL').'vfd-wallet/1.1/wallet2/bank',
+            CURLOPT_URL => $baseurl . 'vfd-wallet/1.1/wallet2/bank',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -62,9 +72,9 @@ class VFDController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_SSL_VERIFYPEER=>false,
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$token,
+                'Authorization: Bearer ' . $token,
                 'Content-Type: application/json'
             ),
         ));
@@ -77,27 +87,48 @@ class VFDController extends Controller
 //        return $response;
         $rep = json_decode($response, true);
 
-        $rep1=$rep['data']['bank'];
+        $rep1 = $rep['data']['bank'];
 //return $rep1;
-        return view('transfer', compact( 'rep1'));
+        return view('transfer', compact('rep1'));
 
     }
 
-    public function validateBankAccount(Request  $request){
-//return $request;
-        $bankCode=$request->bankcode;
-        $accountNumber=$request->number;
+    public function validateBankAccount(Request $request)
+    {
+
+        $input = $request->all();
+        Validator::make($input, [
+            'bankcode' => ['required', 'string', 'max:13'],
+            'number' => ['required', 'string', 'max:13']
+        ])->validate();
+
+        $bankCode = $request->bankcode;
+        $accountNumber = $request->number;
 
 //        $bankCode="999058";
 //        $accountNumber="0001744830";
 
-        $auth=$this->auth_init();
-        $token=$auth['access_token'];
+        $transferType = "inter";
+
+        if ($bankCode == "999999") {
+            $transferType = "intra";
+        }
+
+        $auth = $this->auth_init();
+        $token = $auth['access_token'];
+
+        if (env('VFD_MODE') == 0) {
+            $auth = env('VFD_AUTH_TEST');
+            $baseurl = env('VFD_URL_TEST');
+        } else {
+            $auth = env('VFD_AUTH');
+            $baseurl = env('VFD_URL');
+        }
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=inter&accountNo='.$accountNumber.'&bank='.$bankCode.'&wallet-credentials='.env('VFD_AUTH'),
+            CURLOPT_URL => $baseurl . 'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=' . $transferType . '&accountNo=' . $accountNumber . '&bank=' . $bankCode . '&wallet-credentials=' . $auth,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -105,9 +136,9 @@ class VFDController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_SSL_VERIFYPEER=>false,
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$token,
+                'Authorization: Bearer ' . $token,
                 'Content-Type: application/json'
             ),
         ));
@@ -120,28 +151,30 @@ class VFDController extends Controller
 //        return $response;
 
         $rep = json_decode($response, true);
-        $bvn=$rep['data']['bvn'];
-        $idc=$rep['data']['account']['id'];
-        $rep1=$rep['data']['name'];
-        return view('verify', compact( 'rep1', 'request', 'bvn', 'idc'));
+        $bvn = $rep['data']['bvn'];
+        $idc = $rep['data']['account']['id'];
+        $rep1 = $rep['data']['name'];
+        $clientId = $rep['data']['clientId'] ?? "";
+        return view('verify', compact('rep1', 'request', 'bvn', 'idc', 'clientId'));
 
     }
 
-    public function accountEnquiry(Request  $request){
+    public function accountEnquiry(Request $request)
+    {
 //return $request;
 //        $bankCode=$request->bankcode;
 //        $accountNumber=$request->number;
 
-        $bankCode="999058";
-        $accountNumber="0001744830";
+        $bankCode = "999058";
+        $accountNumber = "0001744830";
 
-        $auth=$this->auth_init();
-        $token=$auth['access_token'];
+        $auth = $this->auth_init();
+        $token = $auth['access_token'];
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=inter&accountNo='.$accountNumber.'&bank='.$bankCode.'&wallet-credentials='.env('VFD_AUTH'),
+            CURLOPT_URL => env('VFD_URL') . 'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=inter&accountNo=' . $accountNumber . '&bank=' . $bankCode . '&wallet-credentials=' . env('VFD_AUTH'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -149,9 +182,9 @@ class VFDController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_SSL_VERIFYPEER=>false,
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$token,
+                'Authorization: Bearer ' . $token,
                 'Content-Type: application/json'
             ),
         ));
@@ -163,15 +196,33 @@ class VFDController extends Controller
         return $response;
     }
 
-    public function accountTransfer12(Request  $request){
+    public function accountTransfer12(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'bankcode' => ['required', 'string', 'max:13'],
+            'number' => ['required', 'string', 'max:13'],
+            'accountbvn' => ['required', 'string'],
+            'accountname' => ['required', 'string'],
+            'amount' => ['required', 'string', 'max:13'],
+            'narration' => ['required', 'string'],
+            'sessionID' => ['required', 'string']
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('transfer')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
 //return $request;
-        $bankCode=$request->bankcode;
-        $accountNumber=$request->number;
-        $accountBVN=$request->accountbvn;
-        $accountName=$request->accountname;
-        $amount=$request->amount;
-        $narration=$request->narration;
-        $sessionID=$request->sessionID;
+        $bankCode = $request->bankcode;
+        $accountNumber = $request->number;
+        $accountBVN = $request->accountbvn;
+        $accountName = $request->accountname;
+        $amount = $request->amount;
+        $narration = $request->narration;
+        $sessionID = $request->sessionID;
+        $clientId = $request->clientId;
 
         //for test
 //        $bankCode="999058";
@@ -183,74 +234,109 @@ class VFDController extends Controller
 //        $sessionID="999116190411110815131298994293";
 
 
-        $auth=$this->auth_init();
-        $token=$auth['access_token'];
+        $auth = $this->auth_init();
+        $token = $auth['access_token'];
 
-        $fromAccount=env("VFD_TRANSFER_ACCOUNTNO");
-        $reference="amali-inclusion-".uniqid();
 
-        $signature=hash('sha512', $fromAccount.$accountNumber);
+        if (env('VFD_MODE') == 0) {
+            $auth = env('VFD_AUTH_TEST');
+            $baseurl = env('VFD_URL_TEST');
+            $fromAccount = env("VFD_TRANSFER_ACCOUNTNO_TEST");
+            $fromSavingsId=env("VFD_TRANSFER_ACCOUNTID_TEST");
+            $fromClientId=env("VFD_TRANSFER_CLIENTID_TEST");
+            $fromClient=env("VFD_TRANSFER_CLIENT_TEST");
+        } else {
+            $auth = env('VFD_AUTH');
+            $baseurl = env('VFD_URL');
+            $fromAccount = env("VFD_TRANSFER_ACCOUNTNO");
+            $fromSavingsId=env("VFD_TRANSFER_ACCOUNTID");
+            $fromClientId=env("VFD_TRANSFER_CLIENTID");
+            $fromClient=env("VFD_TRANSFER_CLIENT");
+        }
 
-        $payload='{
-  "fromSavingsId": "'.env("VFD_TRANSFER_ACCOUNTID").'",
-  "amount": "'.$amount.'",
-  "toAccount": "'.$accountNumber.'",
+
+
+        $reference = "amali-inclusion-" . uniqid();
+
+        $signature = hash('sha512', $fromAccount . $accountNumber);
+
+        if ($bankCode == "999999") {
+            $payload = '{
+  "fromSavingsId": "' . $fromSavingsId . '",
+  "amount": "' . $amount . '",
+  "toAccount": "' . $accountNumber . '",
   "fromBvn": "1000000000",
-  "signature": "'.$signature.'",
-  "fromAccount": "'.$fromAccount.'",
-  "toBvn": "'.$accountBVN.'",
-  "remark": "'.$narration.'",
-  "fromClientId": "'.env("VFD_TRANSFER_CLIENTID").'",
-  "fromClient": "'.env("VFD_TRANSFER_CLIENT").'",
+  "signature": "' . $signature . '",
+  "fromAccount": "' . $fromAccount . '",
+  "toBvn": "' . $accountBVN . '",
+  "remark": "' . $narration . '",
+  "fromClientId": "' . $fromClientId. '",
+  "fromClient": "' . $fromClient . '",
   "toKyc": "99",
-  "reference": "'.$reference.'",
+  "reference": "' . $reference . '",
+  "toClientId": "' . $clientId . '",
+  "toClient": "' . $accountName . '",
+  "toSession": "",
+  "transferType": "intra",
+  "toBank": "' . $bankCode . '",
+  "toSavingsId": "' . $sessionID . '"
+}';
+        } else {
+
+            $payload = '{
+  "fromSavingsId": "' . $fromSavingsId . '",
+  "amount": "' . $amount . '",
+  "toAccount": "' . $accountNumber . '",
+  "fromBvn": "1000000000",
+  "signature": "' . $signature . '",
+  "fromAccount": "' . $fromAccount . '",
+  "toBvn": "' . $accountBVN . '",
+  "remark": "' . $narration . '",
+  "fromClientId": "' . $fromClientId . '",
+  "fromClient": "' . $fromClient . '",
+  "toKyc": "99",
+  "reference": "' . $reference . '",
   "toClientId": "",
-  "toClient": "'.$accountName.'",
-  "toSession": "'.$sessionID.'",
+  "toClient": "' . $accountName . '",
+  "toSession": "' . $sessionID . '",
   "transferType": "inter",
-  "toBank": "'.$bankCode.'",
+  "toBank": "' . $bankCode . '",
   "toSavingsId": ""
 }';
+        }
 
-//        echo $payload;
-//        return $request;
-        $user = User::find($request->user()->id);
-        $wallet = wallet::where('user_id', $user->id)->first();
 
-//        $ref = Auth::id() . uniqid();
-        $agentid = "plan";
-        $amount = $request->amount;
-
+//        return $payload;
+        $wallet = wallet::where('user_id', Auth::id())->first();
 
         if ($amount < 100) {
             $mg = "Minimum amount is 100. Kindly increase amount and try again";
-            return redirect()->route('verify')->withErrors($mg);
+            return redirect()->route('transfer')->withErrors($mg);
         }
 
         if ($wallet->balance < 1) {
             $mg = "Insufficient balance. Kindly topup and try again";
-            return redirect()->route('verify')->withErrors($mg);
+            return redirect()->route('transfer')->withErrors($mg);
         }
 
         if ($amount < 1) {
-            $mg = "error transaction";
-            return redirect()->route('verify')->withErrors($mg);
+            $mg = "Error transaction";
+            return redirect()->route('transfer')->withErrors($mg);
         }
 
         if ($wallet->balance < $amount) {
-            $mg = "You Cant Make Purchase Above" . "NGN" . $amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet.";
-            return redirect()->route('verify')->withErrors($mg);
+            $mg = "You Cant Make Purchase Above NGN" . $amount . " from your wallet. Your wallet balance is NGN $wallet->balance. Please Fund Wallet.";
+            return redirect()->route('transfer')->withErrors($mg);
         }
 
         $bo = transfer::where('refid', $request->refe)->first();
 
         if ($bo) {
             $mg = "Suspected duplicate transaction";
-            return redirect()->route('verify')->withErrors($mg);
+            return redirect()->route('transfer')->withErrors($mg);
         }
 
         $gt = $wallet->balance - $request->amount;
-
         $wallet->balance = $gt;
         $wallet->save();
 
@@ -258,7 +344,7 @@ class VFDController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer?source=pool&wallet-credentials='.env('VFD_AUTH'),
+            CURLOPT_URL => $baseurl . 'vfd-wallet/1.1/wallet2/transfer?source=pool&wallet-credentials=' . $auth,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -267,9 +353,9 @@ class VFDController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $payload,
-            CURLOPT_SSL_VERIFYPEER=>false,
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer '.$token,
+                'Authorization: Bearer ' . $token,
                 'Content-Type: application/json'
             ),
         ));
@@ -277,15 +363,18 @@ class VFDController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-//        echo  env('VFD_URL').'vfd-wallet/1.1/wallet2/transfer?source=pool&wallet-credentials='.env('VFD_AUTH');
+
 //        return $response;
         $rep = json_decode($response, true);
 
-        if($rep['status'] != "00"){
-            return redirect()->route('verify')->withErrors("Transfer not successful. Try again later");
-        }
+        if ($rep['status'] != "00") {
 
-        $pa=$rep['data'];
+            $gt = $wallet->balance + $request->amount;
+            $wallet->balance = $gt;
+            $wallet->save();
+
+            return redirect()->route('transfer')->withErrors("Transfer not successful. Try again later");
+        }
 
 
         transfer::create([
@@ -297,34 +386,42 @@ class VFDController extends Controller
             'refid' => $reference,
         ]);
 
-//        Transaction::create([
-//            'user_id' => Auth::id(),
-//            'uuid' => Auth::user()->uuid,
-//            'reference' => $request->refe,
-//            'type' => 'debit',
-//            'remark' => $rep['data'],
-//            'amount' => $request->amount,
-//            'previous' => $wallet->balance,
-//            'balance' => $gt,
-//        ]);
-        $name = "Reference: $reference. Transfer";
-        $am = "$request->amount was successfully transferred to";
-        $ph = $request->number;
+        Transaction::create([
+            'user_id' => Auth::id(),
+            'uuid' => Auth::user()->uuid,
+            'reference' => $request->refe,
+            'type' => 'debit',
+            'remark' => "Successful Transfer to " . $accountName . " (" .$accountNumber."). Reference: $reference",
+            'amount' => $request->amount,
+            'previous' => $wallet->balance,
+            'balance' => $gt,
+        ]);
 
-        return view('bills.bill', compact('user', 'name', 'am', 'ph', 'rep'));
+
+
+        $am = "NGN $amount was successfully transferred to $accountNumber";
+        $rep="success";
+
+        return view('bills.bill', compact('am', 'rep'));
 
     }
 
+    public function auth_init()
+    {
 
 
-    public function auth_init(){
-
-        $auth=env('VFD_AUTH');
+        if (env('VFD_MODE') == 0) {
+            $auth = env('VFD_AUTH_TEST');
+            $baseurl = env('VFD_URL_TEST');
+        } else {
+            $auth = env('VFD_AUTH');
+            $baseurl = env('VFD_URL');
+        }
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('VFD_URL').'token',
+            CURLOPT_URL => $baseurl . 'token',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -333,9 +430,9 @@ class VFDController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => 'grant_type=client_credentials',
-            CURLOPT_SSL_VERIFYPEER=>false,
+            CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic '.$auth,
+                'Authorization: Basic ' . $auth,
                 'Content-Type: application/x-www-form-urlencoded'
             ),
         ));

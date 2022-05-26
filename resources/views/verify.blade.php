@@ -45,6 +45,7 @@
                                                                     <input  type="hidden"  class="form-control" name="bankcode" value="{{$request->bankcode}}" readonly>
                                                                     <input  type="hidden"  class="form-control" name="accountbvn" value="{{$bvn}}" readonly>
                                                                     <input  type="hidden"  class="form-control" name="sessionID" value="{{$idc}}" readonly>
+                                                                    <input  type="hidden"  class="form-control" name="clientId" value="{{$clientId}}" readonly>
                                                                     <input  type="hidden"  class="form-control" name="refe" value="{{rand(10000000, 999999999)}}" readonly>
                                                                 </div>
 

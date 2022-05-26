@@ -113,67 +113,67 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('settings/performance', [AgentController::class, 'performance'])->name('agent.performance');
     Route::post('settings/performance', [AgentController::class, 'performanceSearch'])->name('agent.performanceSearch');
 
+    Route::get('/posmanagement', function () {
+        return view('posmanagement');
+    });
+
+    Route::get('/bill-payment', function (){
+        return view('bill-payment');
+    });
+
+
+
+
+    Route::get('transfer', [VFDController::class, 'bankList'])->name('transfer');
+
+
+    Route::get('/bills/airtime', function () {
+        return view('bills/airtime');
+    })->name('bills.airtime');
+    Route::post('buyAirtime', [BillsPaymentController::class, 'buyAirtime'])->name('buyAirtime');
+
+    Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.data');
+    Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->name('bills.dataplans');
+    Route::post('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
+
+    Route::get('/bills/tv', function () {
+        return view('bills/tv');
+    })->name('bills.tv');
+    Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
+    Route::get('bills/renewtv', [BillsPaymentController::class, 'renewTV'])->name('bills.renewtv');
+    Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
+    Route::post('bills/changeTVSub', [BillsPaymentController::class, 'changeTVSub'])->name('bills.changeTVSub');
+
+    Route::get('bills/elect', [BillsPaymentController::class, 'electricityList'])->name('bills.elect');
+    Route::post('biils/verifyelect', [BillsPaymentController::class, 'validateElectricity'])->name('bills.verifyelect');
+    Route::post('bills/pay', [BillsPaymentController::class, 'purchaseElectricity'])->name('bills.pay');
+
+    Route::post('verify', [VFDController::class, 'validateBankAccount'])->name('verify');
+
+
+    Route::get('/wallet/transfer', function () {
+        return view('wallet_transfer');
+    })->name('walletTransfer');
+
+    Route::get('/bills/receipt', function () {
+        return view('bills/receipt');
+    });
+
+    Route::get('/settings/preferences', function () {
+        return view('settings/preferences');
+    });
+
+    Route::get('/settings/noti', function () {
+        return view('settings/noti');
+    });
+    Route::get('/settings/pass', function () {
+        return view('settings/pass');
+    });
+    Route::get('/settings/delete', function (){
+        return view('settings/delete');
+    });
+    Route::post('bills.bill', [BillsPaymentController::class, 'buyAirtime'])->name('bills.bill');
+
 });
-
-Route::get('/posmanagement', function () {
-    return view('posmanagement');
-});
-
-Route::get('/bill-payment', function (){
-    return view('bill-payment');
-});
-
-
-
-
-Route::get('transfer', [VFDController::class, 'bankList'])->name('transfer');
-
-
-Route::get('/bills/airtime', function () {
-    return view('bills/airtime');
-})->name('bills.airtime');
-Route::post('buyAirtime', [BillsPaymentController::class, 'buyAirtime'])->name('buyAirtime');
-
-Route::get('bills/data', [BillsPaymentController::class, 'data'])->name('bills.data');
-Route::post('bills/dataplans', [BillsPaymentController::class, 'dataPlans'])->name('bills.dataplans');
-Route::post('bills/buydata', [BillsPaymentController::class, 'buyDataPlans'])->name('bills.buydata');
-
-Route::get('/bills/tv', function () {
-    return view('bills/tv');
-})->name('bills.tv');
-Route::post('bills/list', [BillsPaymentController::class, 'TVPlans'])->name('bills.list');
-Route::get('bills/renewtv', [BillsPaymentController::class, 'renewTV'])->name('bills.renewtv');
-Route::post('bills/tvlist', [BillsPaymentController::class, 'validateTV'])->name('bills.tvlist');
-Route::post('bills/changeTVSub', [BillsPaymentController::class, 'changeTVSub'])->name('bills.changeTVSub');
-
-Route::get('bills/elect', [BillsPaymentController::class, 'electricityList'])->name('bills.elect');
-Route::post('biils/verifyelect', [BillsPaymentController::class, 'validateElectricity'])->name('bills.verifyelect');
-Route::post('bills/pay', [BillsPaymentController::class, 'purchaseElectricity'])->name('bills.pay');
-
-Route::post('verify', [VFDController::class, 'validateBankAccount'])->name('verify');
-
-
-Route::get('/wallet/transfer', function () {
-    return view('wallet_transfer');
-})->name('walletTransfer');
-
-Route::get('/bills/receipt', function () {
-    return view('bills/receipt');
-});
-
-Route::get('/settings/preferences', function () {
-    return view('settings/preferences');
-});
-
-Route::get('/settings/noti', function () {
-    return view('settings/noti');
-});
-Route::get('/settings/pass', function () {
-    return view('settings/pass');
-});
-Route::get('/settings/delete', function (){
-    return view('settings/delete');
-});
-Route::post('bills.bill', [BillsPaymentController::class, 'buyAirtime'])->name('bills.bill');
 
 require __DIR__ . '/admin.php';
