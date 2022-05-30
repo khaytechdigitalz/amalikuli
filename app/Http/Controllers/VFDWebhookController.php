@@ -36,7 +36,7 @@ class VFDWebhookController extends Controller
             return response()->json(['success' => false, 'message' => "Expected information not found"]);
         }
 
-        $customer=Customer::where('accountNo', $input['originator_account_number'])->first();
+        $customer=Customer::where('accountNo', $input['account_number'])->first();
 
         if(!$customer){
             return response()->json(['success' => false, 'message' => "Account does not exist"]);
