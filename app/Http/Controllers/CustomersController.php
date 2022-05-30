@@ -40,7 +40,7 @@ class CustomersController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => env('VFD_URL') . 'agency-bank/verify',
+                CURLOPT_URL => env('VFDC_URL') . 'agency-bank/verify',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
@@ -56,7 +56,7 @@ class CustomersController extends Controller
     }',
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
-                    'Authorization: Bearer ' . env('VFD_TOKEN'),
+                    'Authorization: Bearer ' . env('VFDC_TOKEN'),
                 ),
             ));
 
