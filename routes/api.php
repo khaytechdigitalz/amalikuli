@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/webhook/vfd', [\App\Http\Controllers\VFDWebhookController::class, 'index']);
+Route::middleware('VFDAuth')->post('/webhook/vfd', [\App\Http\Controllers\VFDWebhookController::class, 'index']);
