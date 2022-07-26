@@ -114,17 +114,25 @@ class LoginUser
         }
 
         $hashv = env('GRUPPLOGIN_SECRETKEY') . '|' . $request->phone . '|' . $request->password;
-        $hash=hash_hmac("SHA512",$hashv,env('GRUPPLOGIN_SECRETKEY'));
+        $hash= \hash("SHA512",$hashv);
+//        dd($hash);
         $payload='{
     "password": "'.$request->password.'",
     "identifier": "'.$request->phone.'",
     "hash": "'.$hash.'"
 }';
 
+        echo "=====BASE URL=====";
+        echo env('GRUPPLOGIN_BASEURL'). '/extension/auth';
+        echo "=====Payload=====";
+        echo $payload;
+
+        echo "=====Response=====";
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => '/extension/auth',
+            CURLOPT_URL => env('GRUPPLOGIN_BASEURL'). '/extension/auth',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -133,6 +141,7 @@ class LoginUser
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_SSL_VERIFYPEER =>false,
             CURLOPT_HTTPHEADER => array(
                 'bankerId: '.env('GRUPPLOGIN_BANKERID'),
                 'Authorization: Basic '.base64_encode(env('GRUPPLOGIN_USERNAME'). ":".env('GRUPPLOGIN_PASSWORD')),
@@ -146,22 +155,43 @@ class LoginUser
 
         $resp=json_decode($response, true);
 
-        if(!$resp['status']){
-            return back()->with('error', $resp['message']);
+//        dd($response);
+
+        if($resp['status']){
+
+            $u=User::create([
+                'firstname' => "",
+                'lastname' => "",
+                'dob' => "",
+                'gender' => "",
+                'phone' => $input['phone'],
+                'email' => "",
+                'password' => Hash::make($input['password']),
+                'uuid' => hexdec(uniqid() . rand(0, 100)),
+            ]);
+
+
+            Business::create([
+                'user_id' => $u->id,
+                'name' => $input['phone'],
+                'address' => " ",
+                'phoneno' => $input['phone'],
+                'lga' => " ",
+                'state' => " ",
+                'type' => " ",
+            ]);
+
+
+
+            Wallet::create([
+                'user_id' => $u->id,
+                'name' => 'deposit',
+                'balance' => "0"
+            ]);
+
+
+            return $u;
         }
-
-        $u=User::create([
-            'firstname' => "",
-            'lastname' => "",
-            'dob' => "",
-            'gender' => "",
-            'phone' => $input['phone'],
-            'email' => "",
-            'password' => Hash::make($input['password']),
-            'uuid' => hexdec(uniqid() . rand(0, 100)),
-        ]);
-
-        return $u;
 
     }
 }

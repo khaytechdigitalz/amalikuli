@@ -41,7 +41,7 @@ class JetstreamServiceProvider extends ServiceProvider
 //            return view('login');
 //        });
 
-        Fortify::authenticateUsing([new LoginUser, 'login']);
+        Fortify::authenticateUsing([new LoginUser, 'loginNew']);
 
     }
 

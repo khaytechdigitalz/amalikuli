@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/bankList', [\App\Http\Controllers\VFDController::class, 'bankList'])->name('bankList');
 
+Route::get('/testgterminal', [\App\Http\Controllers\GruppTerminalController::class, 'sessionid'])->name('sessionid');
+Route::get('grupp-transactions', [\App\Http\Controllers\GruppTerminalController::class, 'transaction'])->name('admin.grupp.terminal');
+
 Route::get('/', function () {
 //    return view('welcome');
     return redirect()->route('login');
@@ -46,7 +49,7 @@ Route::get('/logout', function () {
     return redirect()->route('login')->with('success', 'Account logout successfully');
 })->name('logout');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'AdminCheck'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
@@ -94,6 +97,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('update-profile');
 
     Route::get('/terminals', [PosManagementController::class, 'terminals'])->name('terminals');
+    Route::get('/terminals/{id}', [PosManagementController::class, 'terminalsTransaction'])->name('terminalsTransaction');
     Route::post('/terminals', [PosManagementController::class, 'assignterminals']);
     Route::get('/transactions/{id}/subagent', [AgentController::class, 'agentTransactions'])->name('agentTransactions');
     Route::get('/wallet/history', [WalletController::class, 'history'])->name('walletHistory');

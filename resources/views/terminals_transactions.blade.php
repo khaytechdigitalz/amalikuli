@@ -20,6 +20,46 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-xl-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+                                <div class="dash-count">
+                                    <div class="dash-title"><h4>Terminal ID</h4> {{$terminal->terminal_id}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+                                <div class="dash-count">
+                                    <div class="dash-title"><h4>Terminal Serial</h4> {{$terminal->serial_number}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+                                <div class="dash-count">
+                                    <div class="dash-title"><h4>Terminal CreatedOn</h4> {{\Carbon\Carbon::parse($terminal->created_at)->format('Y-m-d')}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
 
             <div class="row">
                 <div class="col-sm-12">
@@ -48,100 +88,32 @@
                                 <table class="table table-center table-hover datatable">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th>SN</th>
-                                        <th>Terminal ID</th>
-                                        <th>Serial Number</th>
-                                        <th>Sub Agent Assigned</th>
-                                        <th>Status</th>
+                                        <th>Reference</th>
+                                        <th>Amount</th>
+                                        <th>Transaction Type</th>
+                                        <th>Balance</th>
                                         <th>Date</th>
-                                        <th class="text-right">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($datas as $data)
+                                    @foreach($transactions->list as $data)
                                         <tr>
                                             <td>
-                                                {{$i++}}
+                                                {{$data->reference}}
                                             </td>
                                             <td>
-                                                {{$data->terminal_id}}
+                                                {{$data->amount}}
                                             </td>
                                             <td>
-                                                {{$data->serial_number}}
+                                                {{$data->transactionType}}
                                             </td>
                                             <td>
-                                            {{@App\Models\User::whereId($data->sub_agent_id)->first()->firstname ?? "Not Assigned"}}
-                                            {{@App\Models\User::whereId($data->sub_agent_id)->first()->lastname ?? "Not Assigned"}}
-
+                                                {{number_format($data->balance)}}
                                             </td>
                                             <td>
-                                                @if($data->status == 1)
-                                                    <span class="badge badge-primary"> Active </span>
-                                                @else
-                                                    <span class="badge badge-danger"> Not Active</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                {{$data->created_at}}
-                                            </td>
-                                            <td class="text-right ">
-                                                <button  data-toggle="modal" data-target="#myModal{{$data->id}}" class="btn btn-sm btn-primary">Assign</button>
-                                                @if($data->status == 1)
-                                                    <a class="btn btn-primary" href="{{route('terminalsTransaction', $data->id)}}">View Transactions</a>
-                                                @endif
+                                                {{$data->timeCreated}}
                                             </td>
                                         </tr>
-
-
-<!-- The Modal -->
-<div class="modal" id="myModal{{$data->id}}">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Assign Terminal</h4><br>
-      </div>
-
-      <br>
-
-      <div class="modal-header">
-      <a class="text-danger">
-        Please ensure you check very well before assigning Terminal to a sub agent. We will not be liable to any loss arising from you assigning Terminal to a wrong sub agent
-        </a>
-      </div>
-      <form action="" method="POST">
-      @csrf
-      <!-- Modal body -->
-      <div class="modal-body">
-        <div class="form-group">
-        <label>Select Sub Agent</label>
-        <select  name="agent" class="form-control">
-        <option  select disabled>Please Select A Sub Agent</option>
-        @foreach($subagent as $datas)
-        <option value="{{$datas->id}}">{{$datas->firstname}} {{$datas->lastname}}</option>
-        @endforeach
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Serial Number</label>
-        <input name="serialnumber" value="{{$data->serial_number}}" readonly class="form-control" >
-        </div>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Assign</button>
-      </div>
-    </form>
-
-    </div>
-  </div>
-</div>
-<!-- END MODAL-->
-
                                     @endforeach
 
                                     </tbody>

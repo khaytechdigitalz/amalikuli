@@ -32,7 +32,7 @@ Route::get('admin/all-subagent', function () {
 });
 
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'AgentCheck'])->group(function () {
 
 //    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
 
@@ -44,6 +44,7 @@ Route::prefix('admin')->group(function () {
     Route::get('subagentTransactions/{id}', [UserController::class, 'subagentTransactions'])->name('admin.subagentTransactions');
     Route::get('all-sub-agents', [UserController::class, 'subagents'])->name('admin.all-sub-agents');
     Route::get('posmanagement', [UserController::class, 'posmanagement'])->name('admin.posmanagement');
+    Route::get('posmanagement-transaction/{id}', [UserController::class, 'posmanagementTransaction'])->name('admin.posmanagementTransaction');
     Route::post('posmanagement', [UserController::class, 'posmanagementcreate']);
     Route::get('unassigned-terminal', [UserController::class, 'posmanagementu'])->name('admin.posmanagementu');
     Route::get('assigned-terminal', [UserController::class, 'posmanagementa'])->name('admin.posmanagementa');
