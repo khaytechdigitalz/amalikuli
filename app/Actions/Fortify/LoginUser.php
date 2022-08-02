@@ -122,12 +122,12 @@ class LoginUser
     "hash": "'.$hash.'"
 }';
 
-        echo "=====BASE URL=====";
-        echo env('GRUPPLOGIN_BASEURL'). '/extension/auth';
-        echo "=====Payload=====";
-        echo $payload;
-
-        echo "=====Response=====";
+//        echo "=====BASE URL=====";
+//        echo env('GRUPPLOGIN_BASEURL'). '/extension/auth';
+//        echo "=====Payload=====";
+//        echo $payload;
+//
+//        echo "=====Response=====";
 
         $curl = curl_init();
 
@@ -155,7 +155,7 @@ class LoginUser
 
         $resp=json_decode($response, true);
 
-        echo $response;
+//        echo $response;
 
 //        dd($response);
 

@@ -52,6 +52,7 @@ class VFDController extends Controller
     {
 
         $auth = $this->auth_init();
+
         $token = $auth['access_token'];
 
         if (env('VFD_MODE') == 0) {
@@ -79,9 +80,13 @@ class VFDController extends Controller
             ),
         ));
 
-        $response = curl_exec($curl);
+        try{
+            $response = curl_exec($curl);
 
-        curl_close($curl);
+            curl_close($curl);
+        }catch (\Exception $e){
+            return redirect()->route('dashboard')->with('error', 'Currently not available');
+        }
 //        echo $response;
 //        echo env('VFD_URL').'vfd-wallet/1.1/wallet2/bank';
 //        return $response;

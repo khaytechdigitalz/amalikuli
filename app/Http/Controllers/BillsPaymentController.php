@@ -8,7 +8,6 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Wallet;
 use Carbon\Carbon;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -178,6 +177,10 @@ class BillsPaymentController extends Controller
         curl_close($curl);
 
         $rep1 = json_decode($response, true);
+
+        if($rep1['status'] == 'error'){
+            return redirect()->route('dashboard')->with('error', 'Provider currently not available');
+        }
 
 //        echo env('BAXI_URL') . 'services/databundle/bundles';
 //
@@ -365,6 +368,11 @@ class BillsPaymentController extends Controller
 //        echo env('BAXI_URL') . 'services/namefinder/query';
 
         $rep = json_decode($response, true);
+
+        if($rep['status'] == 'error'){
+            return redirect()->route('dashboard')->with('error', 'Provider currently not available');
+        }
+
 
         $rep1 = $rep['data']['user']['name'];
 
@@ -564,6 +572,11 @@ class BillsPaymentController extends Controller
 //        return $response;
         $rep = json_decode($response, true);
 
+        if($rep['status'] == 'error'){
+            return redirect()->route('dashboard')->with('error', 'Provider currently not available');
+        }
+
+
         $rep1 = $rep['data'];
         $code1 = $rep['data'][0]['code'];
         $name1 = $rep['data'][0]['name'];
@@ -664,6 +677,10 @@ class BillsPaymentController extends Controller
 //        echo   env('BAXI_URL') . 'services/electricity/billers';
 //return $response;
         $rep = json_decode($response, true);
+
+        if($rep['status'] == 'error'){
+            return redirect()->route('dashboard')->with('error', 'Provider currently not available');
+        }
 
         $rep1 = $rep['data']['providers'];
 
