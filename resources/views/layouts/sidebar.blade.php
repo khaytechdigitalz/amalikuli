@@ -194,19 +194,19 @@
                         </li>
                     @endif
 
-                    @if(canSee('wallet-withdraw'))
-                        <li>
-                            <a href="{{route('walletWithdraw')}}"><i class="fa fa-arrow-alt-circle-right"></i>
-                                <span>Withdraw</span></a>
-                        </li>
-                    @endif
+{{--                    @if(canSee('wallet-withdraw'))--}}
+{{--                        <li>--}}
+{{--                            <a href="{{route('walletWithdraw')}}"><i class="fa fa-arrow-alt-circle-right"></i>--}}
+{{--                                <span>Withdraw</span></a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
 
-                    @if(canSee('wallet-transfer'))
-                        <li>
-                            <a href="{{route('walletTransfer')}}"><i class="fa fa-arrow-alt-circle-right"></i>
-                                <span>Wallet Transfer</span></a>
-                        </li>
-                    @endif
+{{--                    @if(canSee('wallet-transfer'))--}}
+{{--                        <li>--}}
+{{--                            <a href="{{route('walletTransfer')}}"><i class="fa fa-arrow-alt-circle-right"></i>--}}
+{{--                                <span>Wallet Transfer</span></a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
 
                     @if(canSee('profile'))
                         <li>

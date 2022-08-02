@@ -155,42 +155,47 @@ class LoginUser
 
         $resp=json_decode($response, true);
 
+        echo $response;
+
 //        dd($response);
 
-        if($resp['status']){
-
-            $u=User::create([
-                'firstname' => "",
-                'lastname' => "",
-                'dob' => "",
-                'gender' => "",
-                'phone' => $input['phone'],
-                'email' => "",
-                'password' => Hash::make($input['password']),
-                'uuid' => hexdec(uniqid() . rand(0, 100)),
-            ]);
-
-
-            Business::create([
-                'user_id' => $u->id,
-                'name' => $input['phone'],
-                'address' => " ",
-                'phoneno' => $input['phone'],
-                'lga' => " ",
-                'state' => " ",
-                'type' => " ",
-            ]);
+        if(isset($resp['status'])){
+            if($resp['status']) {
+                $userCheck=User::where('phone', $input['phone'])->exists();
+                if(!$userCheck){
+                    $u = User::create([
+                        'firstname' => "",
+                        'lastname' => "",
+                        'dob' => "",
+                        'gender' => "",
+                        'phone' => $input['phone'],
+                        'email' => "",
+                        'password' => Hash::make($input['password']),
+                        'uuid' => hexdec(uniqid() . rand(0, 100)),
+                    ]);
 
 
+                    Business::create([
+                        'user_id' => $u->id,
+                        'name' => $input['phone'],
+                        'address' => " ",
+                        'phoneno' => $input['phone'],
+                        'lga' => " ",
+                        'state' => " ",
+                        'type' => " ",
+                    ]);
 
-            Wallet::create([
-                'user_id' => $u->id,
-                'name' => 'deposit',
-                'balance' => "0"
-            ]);
+
+                    Wallet::create([
+                        'user_id' => $u->id,
+                        'name' => 'deposit',
+                        'balance' => "0"
+                    ]);
 
 
-            return $u;
+                    return $u;
+                }
+            }
         }
 
     }

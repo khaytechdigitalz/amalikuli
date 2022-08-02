@@ -81,10 +81,10 @@
                     <span>Admin</span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{route('profile')}}"><i data-feather="user" class="me-1"></i>
-                        Profile</a>
-                    <a class="dropdown-item" href="{{route('settings')}}"><i data-feather="settings" class="me-1"></i>
-                        Settings</a>
+{{--                    <a class="dropdown-item" href="{{route('profile')}}"><i data-feather="user" class="me-1"></i>--}}
+{{--                        Profile</a>--}}
+{{--                    <a class="dropdown-item" href="{{route('settings')}}"><i data-feather="settings" class="me-1"></i>--}}
+{{--                        Settings</a>--}}
                     <a class="dropdown-item" href="{{route('logout')}}"><i data-feather="log-out" class="me-1"></i> Logout</a>
                 </div>
             </li>
@@ -116,20 +116,20 @@
                         <a class="nav-link active" href="{{url('admin/kycs')}}"><i class="fa fa-lock"></i>
                         <span>KYC</span></a>
                     </li>
-                    <li>
-                        <a class="nav-link active" href="{{url('bill-payment')}}"><i class="fa fa-sticky-note"></i>
-                            <span>All Bills</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link active" href="{{url('bills/airtime')}}"><i class="fa fa-network-wired"></i>
-                            <span>Buy Airtime</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>
-                    </li>
-                    <li>
-                        <a href="{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a class="nav-link active" href="{{url('bill-payment')}}"><i class="fa fa-sticky-note"></i>--}}
+{{--                            <span>All Bills</span></a>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a class="nav-link active" href="{{url('bills/airtime')}}"><i class="fa fa-network-wired"></i>--}}
+{{--                            <span>Buy Airtime</span></a>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a class="nav-link" href="{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>--}}
+{{--                    </li>--}}
+{{--                    <li>--}}
+{{--                        <a href="{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>--}}
+{{--                    </li>--}}
 
                     <li>
                         <a href="{{route('admin.fee.transfer')}}"><i class="fa fa-money-check"></i>
@@ -164,9 +164,9 @@
                         <a href="{{route('admin.generalsettings')}}"><i data-feather="settings"></i> <span>General Settings</span></a>
                     </li>
 
-                    <li>
-                        <a href="{{route('admin.paymentsettings')}}"><i data-feather="shopping-cart"></i> <span>Payment Settings</span></a>
-                    </li>
+{{--                    <li>--}}
+{{--                        <a href="{{route('admin.paymentsettings')}}"><i data-feather="shopping-cart"></i> <span>Payment Settings</span></a>--}}
+{{--                    </li>--}}
 
                 </ul>
             </div>
