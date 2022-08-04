@@ -97,7 +97,7 @@ class BillsPaymentController extends Controller
         //    echo $response;
 
 //        echo env('BAXI_URL') . 'services/airtime/request';
-        return $response;
+//        return $response;
 
         $rep = json_decode($response, true);
 
