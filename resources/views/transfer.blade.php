@@ -75,7 +75,7 @@ verifybill.php?number="+str+"+&networkcode="+k,true);--}}
                                                         <select name="bankcode" id="value" class="text-success  form-control" required="" >
                                                             @foreach($rep1 as $plan)
 {{--                                                            <option selected="">---------</option>--}}
-                                                            <option value="{{$plan['code']}}">{{$plan['name']}}</option>
+                                                            <option value="{{$plan['nipCode']}}">{{$plan['bankName']}}</option>
                                                             @endforeach
 
                                                         </select>

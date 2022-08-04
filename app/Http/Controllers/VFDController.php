@@ -92,7 +92,7 @@ class VFDController extends Controller
 //        return $response;
         $rep = json_decode($response, true);
 
-        $rep1 = $rep['data']['bank'];
+        $rep1 = $rep['data'];
 //return $rep1;
         return view('transfer', compact('rep1'));
 
@@ -110,9 +110,6 @@ class VFDController extends Controller
         $bankCode = $request->bankcode;
         $accountNumber = $request->number;
 
-//        $bankCode="999058";
-//        $accountNumber="0001744830";
-
         $transferType = "inter";
 
         if ($bankCode == "999999") {
@@ -125,6 +122,8 @@ class VFDController extends Controller
         if (env('VFD_MODE') == 0) {
             $auth = env('VFD_AUTH_TEST');
             $baseurl = env('VFD_URL_TEST');
+            $bankCode="999058";
+            $accountNumber="0001744830";
         } else {
             $auth = env('VFD_AUTH');
             $baseurl = env('VFD_URL');
@@ -156,6 +155,11 @@ class VFDController extends Controller
 //        return $response;
 
         $rep = json_decode($response, true);
+
+        if($rep['status'] != "00"){
+            return redirect()->route('transfer')->with('error', $rep['message']);
+        }
+
         $bvn = $rep['data']['bvn'];
         $idc = $rep['data']['account']['id'];
         $rep1 = $rep['data']['name'];
@@ -229,15 +233,6 @@ class VFDController extends Controller
         $sessionID = $request->sessionID;
         $clientId = $request->clientId;
 
-        //for test
-//        $bankCode="999058";
-//        $accountNumber="0001744830";
-//        $accountBVN="22222222223";
-//        $accountName="OGBA, CHRISTOPHER CHINONYE";
-//        $amount="100";
-//        $narration="test trf";
-//        $sessionID="999116190411110815131298994293";
-
 
         $auth = $this->auth_init();
         $token = $auth['access_token'];
@@ -250,6 +245,12 @@ class VFDController extends Controller
             $fromSavingsId=env("VFD_TRANSFER_ACCOUNTID_TEST");
             $fromClientId=env("VFD_TRANSFER_CLIENTID_TEST");
             $fromClient=env("VFD_TRANSFER_CLIENT_TEST");
+
+            $bankCode="999058";
+            $accountNumber="0001744830";
+            $accountBVN="22222222223";
+            $accountName="OGBA, CHRISTOPHER CHINONYE";
+            $narration="test trf";
         } else {
             $auth = env('VFD_AUTH');
             $baseurl = env('VFD_URL');
