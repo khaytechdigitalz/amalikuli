@@ -97,6 +97,35 @@ class GruppTerminalController extends Controller
 
     }
 
+    function login(){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => env('GRUPPTERMINAL_SAMJI_BASEURL').'grupp-login',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+    "serialNumber": "63201125995137",
+    "stan": "123456",
+    "onlyAccountInfo": false
+}',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic cmVzdGRldmljZTo1TkRNMU5qY2tKVjRLSw==',
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return json_decode($response, true);
+    }
+
     function encrypt($input)
     {
         $key = env('FLUTTERWAVE_ENCRYPTION_KEY');

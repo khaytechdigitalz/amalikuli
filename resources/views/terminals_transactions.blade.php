@@ -91,12 +91,13 @@
                                         <th>Reference</th>
                                         <th>Amount</th>
                                         <th>Transaction Type</th>
-                                        <th>Balance</th>
+                                        <th>Transaction Status</th>
+{{--                                        <th>Balance</th>--}}
                                         <th>Date</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($transactions->list as $data)
+                                    @foreach($transactions as $data)
                                         <tr>
                                             <td>
                                                 {{$data->reference}}
@@ -108,8 +109,11 @@
                                                 {{$data->transactionType}}
                                             </td>
                                             <td>
-                                                {{number_format($data->balance)}}
+                                                {{$data->status}}
                                             </td>
+{{--                                            <td>--}}
+{{--                                                {{number_format($data->balance)}}--}}
+{{--                                            </td>--}}
                                             <td>
                                                 {{$data->timeCreated}}
                                             </td>
