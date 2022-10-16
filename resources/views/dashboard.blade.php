@@ -1,9 +1,19 @@
 @extends("layouts.sidebar")
 
 @section('content')
+@push('styles')
+<link rel="stylesheet" href=" https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+@endpush
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="row">
+
+
+            <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ul>
             @if (session('status'))
                                     <div class="card-body">
                                         <div class="mb-4 font-medium text-sm text-green-600 alert-dismissible alert">
@@ -47,12 +57,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="progress progress-sm mt-3">
-                                <div class="progress-bar bg-5" role="progressbar" style="width: 75%" aria-valuenow="75"
-                                     aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            {{--                        <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="fas fa-arrow-down me-1"></i>1.15%</span> since last week</p>--}}
-                        </div>
+
+                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-sm-6 col-12">
@@ -63,18 +69,14 @@
 <i class="fas fa-users"></i>
 </span>
                                 <div class="dash-count">
-                                    <div class="dash-title">Total Agents</div>
+                                    <div class="dash-title">Total Customer</div>
                                     <div class="dash-counts">
-                                        <p>{{$agent}}</p>
+                                        <p>{{$customer}}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="progress progress-sm mt-3">
-                                <div class="progress-bar bg-6" role="progressbar" style="width: 65%" aria-valuenow="75"
-                                     aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            {{--                        <p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="fas fa-arrow-up me-1"></i>2.37%</span> since last week</p>--}}
-                        </div>
+
+                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-sm-6 col-12">
@@ -91,55 +93,149 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="progress progress-sm mt-3">
-                                <div class="progress-bar bg-7" role="progressbar" style="width: 85%" aria-valuenow="75"
-                                     aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            {{--                        <p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="fas fa-arrow-up me-1"></i>3.77%</span> since last week</p>--}}
-                        </div>
+
+                         </div>
                     </div>
                 </div>
-{{--            <div class="col-xl-3 col-sm-6 col-12">--}}
-{{--                <div class="card">--}}
-{{--                    <div class="card-body">--}}
-{{--                        <div class="dash-widget-header">--}}
-{{--<span class="dash-widget-icon bg-4">--}}
-{{--<i class="far fa-file"></i>--}}
-{{--</span>--}}
-{{--                            <div class="dash-count">--}}
-{{--                                <div class="dash-title">Estimates</div>--}}
-{{--                                <div class="dash-counts">--}}
-{{--                                    <p>2,150</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="progress progress-sm mt-3">--}}
-{{--                            <div class="progress-bar bg-8" role="progressbar" style="width: 45%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>--}}
-{{--                        </div>--}}
-{{--                        <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="fas fa-arrow-down me-1"></i>8.68%</span> since last week</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+
+                   @if(canSee('agents'))
+<div class="col-xl-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+<span class="dash-widget-icon bg-1">
+<i class="fa fa-sitemap"></i>
+</span>
+                                <div class="dash-count">
+                                    <div class="dash-title">Total Agents</div>
+                                    <div class="dash-counts">
+                                        <p>{{$agent}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                         </div>
+                    </div>
+                </div>
+
+
+<div class="col-xl-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+<span class="dash-widget-icon bg-3">
+<i class="fa fa-fax"></i>
+</span>
+                                <div class="dash-count">
+                                    <div class="dash-title">Total Terminals</div>
+                                    <div class="dash-counts">
+                                        <p>{{$terminals}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                         </div>
+                    </div>
+                </div>
+
+
+<div class="col-xl-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+<span class="dash-widget-icon bg-info">
+<i class="fa fa-gift"></i>
+</span>
+                                <div class="dash-count">
+                                    <div class="dash-title">Total Float <small>(Sub Agents)</small></div>
+                                    <div class="dash-counts">
+                                        <p>{{$agentfloat}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                         </div>
+                    </div>
+                </div>
+
+                    @endif
             </div>
+
+
+            <div class="col-xl-12 col-sm-12 col-12">
+
+<div id="columnchart_material" style="width: 100%; height: 500px;"></div>
+
+ </div>
+
+
             <div class="card-body">
                 <form class="form" id="filter_form" method="get">
                     <div class="row">
-                        <h5 class="text-secondary">Recent 10 Transactions</h5>
+
+
+                        <h5 class="text-secondary">Recent Transactions</h5>
                         <!-- search -->
 
+                                <div class="card card-table">
+
+                                    <div class="card-body">
+
+                    <div class="table-responsive">
+                    <br>
+                    <h6>Filter Transaction</h6>
+                    <div class="row">
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <label for="search"> From Date </label>
+                            <div class="input-group">
+                                <input type="date" name="from" class="form-control" placeholder="search...">
+
+                            </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="card card-table">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-center table-hover datatable">
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <label for="search"> To Date </label>
+                            <div class="input-group">
+                                <input type="date" name="to" class="form-control"  placeholder="search...">
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                        <label for="search"> Type </label>
+                        <div class="input-group">
+                           <select name="type" class="form-control">
+                           <option value="Credit">Credit</option>
+                           <option value="Debit">Debit</option>
+                           <option value="Bills">Bills</option>
+                           <option value="Airtime">Airtime</option>
+                           <option value="Cable TV">Cable TV</option>
+                           <option value="Internet Data">Internet Data</option>
+                           </select>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                       <br>
+                        <div class="input-group">
+                        <button type="submit" class="btn btn-primary btn-sm">Filter Transaction</button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br> <br>
+                    <hr>
+                         </div>
+                                             <table id="example"  class="table table-center table-hover">
                                                 <thead class="thead-light">
                                                 <tr>
                                                     <th>S/N</th>
+                                                    @if(canSee('agents'))
                                                     <th>Agent Code</th>
-                                                    <th>Type</th>
+                                                    @endif
+                                                     <th>Type</th>
                                                     <th>Amount</th>
                                                     <th>Remark</th>
                                                     <th>Status</th>
@@ -147,43 +243,27 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($trans as $tran)
-                                                    <tr>
-                                                        <td>
-                                                            {{$i++}}
-                                                        </td>
+                                                @foreach($trans as $data)
+                                                <tr>
+                                                    <td>{{$data->id}}</td>
+                                                    @if(canSee('agents'))
 
-                                                        <td>
-                                                            {{$tran->uuid}}
-                                                        </td>
-
-                                                        <td>
-                                                            {{$tran->type}}
-                                                        </td>
-
-                                                        <td>
-                                                            {{$tran->amount}}
-                                                        </td>
-
-                                                        <td>
-                                                            {{$tran->remark}}
-                                                        </td>
-
-                                                        <td>
-                                                            @if($tran->status == 1)
-                                                                successful
-                                                            @else
-                                                                failed
-                                                            @endif
-
-                                                        </td>
-
-                                                        <td>
-                                                            {{$tran->created_at}}
-                                                        </td>
-
-                                                    </tr>
+                                                    <td>{{$data->uuid}}</td>
+                                                    @endif
+                                                    <td>{{$data->type}}</td>
+                                                    <td>₦{{number_format($data->amount,2)}}</td>
+                                                    <td>{{$data->remark}}</td>
+                                                    <td>
+                                                    @if($data->status == 1)
+                                                    <badge class="badge bg-success">Successful</badge>
+                                                    @else
+                                                    <badge class="badge bg-danger">Not Successful</badge>
+                                                    @endif
+                                                    </td>
+                                                    <td>{{$data->created_at}}</td>
+                                                </tr>
                                                 @endforeach
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -194,21 +274,31 @@
                     </div>
                 </form>
             </div>
+
+
+
         </div>
+    </div>
+    </div>
+    </div>
     </div>
 
 
 @endsection
 
 
-@section('scripts')
-    <script src="{{asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+@push('script')
 
-    <script src="{{asset('assets/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} );
+</script>
 
-    <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('assets/plugins/datatables/datatables.min.js')}}"></script>
 
-    <script src="{{asset('assets/js/script.js')}}"></script>
-@endsection
+@endpush

@@ -1,4 +1,4 @@
-@extends('layouts.sidebar')
+@extends("admin.layout.sidebar")
 
 @section('styles')
     <link rel="stylesheet" href="{{asset('assets/plugins/datatables/datatables.min.css')}}">
@@ -11,84 +11,58 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Sub-Agent Transaction</h3>
+                        <h3 class="page-title">{{$title}}</h3>
+                        <ul class="breadcrumb">
 
+                        </ul>
                     </div>
-
-                    <ul class="breadcrumb">
-                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Transactions</li>
-                                </ul>
                     <div class="row">
-                        <div class="col-xl-4 col-sm-6 col-12">
+
+                    <div class="col-xl-6 col-sm-6 col-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="dash-widget-header">
 <span class="dash-widget-icon bg-1">
-<i class="fas fa-wallet"></i>
+<i class="fas fa-spinner"></i>
 </span>
                                         <div class="dash-count">
-                                            <div class="dash-title">Daily Transaction Amount</div>
+                                            <div class="dash-title">Pending Loan</div>
                                             <div class="dash-counts">
-                                                <p>₦{{$tran_sum}}</p>
+                                                <p>{{$pending}}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="progress progress-sm mt-3">
-                                        <div class="progress-bar bg-5" role="progressbar" style="width: 75%"
+                                        <div class="progress-bar bg-1" role="progressbar" style="width: 100%"
                                              aria-valuenow="75"
                                              aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    {{--                        <p class="text-muted mt-3 mb-0"><span class="text-danger me-1"><i class="fas fa-arrow-down me-1"></i>1.15%</span> since last week</p>--}}
-                                </div>
+                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-sm-6 col-12">
+                        <div class="col-xl-6 col-sm-6 col-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="dash-widget-header">
-<span class="dash-widget-icon bg-2">
-<i class="fas fa-users"></i>
-</span>
+                                    <span class="dash-widget-icon bg-danger">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
                                         <div class="dash-count">
-                                            <div class="dash-title">Daily Transaction Count</div>
+                                            <div class="dash-title">Active Loan</div>
                                             <div class="dash-counts">
-                                                <p>{{$tran_count}}</p>
+                                                <p>{{$running}}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="progress progress-sm mt-3">
-                                        <div class="progress-bar bg-6" role="progressbar" style="width: 65%"
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%"
                                              aria-valuenow="75"
                                              aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    {{--                        <p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="fas fa-arrow-up me-1"></i>2.37%</span> since last week</p>--}}
-                                </div>
+                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="dash-widget-header">
-<span class="dash-widget-icon bg-3">
-<i class="fas fa-file-alt"></i>
-</span>
-                                        <div class="dash-count">
-                                            <div class="dash-title">Agent Wallet Balance</div>
-                                            <div class="dash-counts">
-                                                <p>₦{{$wallet->balance}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="progress progress-sm mt-3">
-                                        <div class="progress-bar bg-7" role="progressbar" style="width: 85%"
-                                             aria-valuenow="75"
-                                             aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    {{--                        <p class="text-muted mt-3 mb-0"><span class="text-success me-1"><i class="fas fa-arrow-up me-1"></i>3.77%</span> since last week</p>--}}
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -101,39 +75,70 @@
                                 <table class="table table-center table-hover datatable">
                                     <thead class="thead-light">
                                     <tr>
+                                        <th></th>
                                         <th>Transaction Reference</th>
-                                        <th>Type</th>
-                                        <th>Remark</th>
                                         <th>Amount</th>
+                                        <th>Interest</th>
+                                        <th>Expected Payment</th>
+                                        <th>Duration</th>
                                         <th>Status</th>
-                                        <th>Date</th>
-                                        {{--                                    <th class="text-right">Actions</th>--}}
+                                        <th>Date Requested</th>
+                                        <th>Due Date</th>
+                                      <th class="text-right">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($datas as $data)
+                                    @foreach($loan as $data)
                                         <tr>
+                                            <td>
+                                                {{$loop->iteration}}
+                                            </td>
                                             <td>
                                                 {{$data->reference}}
                                             </td>
                                             <td>
-                                                {{$data->type}}
+                                            ₦{{$data->amount}}
                                             </td>
                                             <td>
-                                                {{$data->remark}}
+                                            ₦{{$data->interest}}
                                             </td>
                                             <td>
-                                                {{$data->amount}}
+                                            ₦{{$data->total}}
+                                            @if($data->paid > 0)
+                                            <br>
+                                            <p class="badge badge-ligh text-success">
+                                            Total Paid: ₦{{$data->paid}}
+                                            </p>
+                                            @endif
                                             </td>
                                             <td>
-                                                @if($data->status == 1)
-                                                    <span class="badge badge-primary"> Successful </span>
+                                            {{$data->duration}} Days
+                                            </td>
+                                            <td>
+                                                @if($data->status == 0)
+                                                    <span class="badge badge-warning"> Pending </span>
+                                                @elseif($data->status == 1)
+                                                    @if($data->expire < $now)
+                                                     <span class="badge badge-danger"> Due Loan
+                                                     </span>
+                                                     @else
+                                                      <span class="badge badge-danger"> Running </span>
+                                                     @endif
+                                                @elseif($data->status == 2)
+                                                    <span class="badge badge-success"> Closed </span>
                                                 @else
                                                     <span class="badge badge-danger"> Failed</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                {{$data->created_at}}
+                                            {!! date(' D, d M, Y', strtotime($data->created_at)) !!}
+                                            </td>
+                                            <td>
+                                            {!! date(' D, d M, Y', strtotime($data->expire)) !!}<br>
+                                           <b> {{ Carbon\Carbon::parse($data->expire)->diffForHumans() }}</b>
+                                            </td>
+                                            <td>
+                                            <a href="{{url('admin/float')}}/{{$data->id}}" class="btn btn-sm btn-primary text-white" href="">View Loan</a>
                                             </td>
                                         </tr>
                                     @endforeach

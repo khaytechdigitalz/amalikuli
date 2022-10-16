@@ -31,6 +31,7 @@ Route::get('admin/all-subagent', function () {
     return view('admin/all-subagent');
 });
 
+Route::middleware('admin')->group(function () {
 
 Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'AgentCheck'])->group(function () {
 
@@ -38,9 +39,13 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'AgentCheck'])->
 
     Route::get('dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
 
+    Route::get('createAgent', [UserController::class, 'addagent'])->name('admin.addagents');
+    Route::post('createAgent', [UserController::class, 'createAgent'])->name('admin.createAgent');
     Route::get('all-agents', [UserController::class, 'agents'])->name('admin.agents');
     Route::get('agent/{id}', [UserController::class, 'viewagent'])->name('admin.view.agent');
     Route::post('addterminal/{id}', [UserController::class, 'addterminal'])->name('admin.addterminal');
+    Route::post('assignterminal', [UserController::class, 'assignterminal'])->name('admin.assignterminal');
+
     Route::get('subagentTransactions/{id}', [UserController::class, 'subagentTransactions'])->name('admin.subagentTransactions');
     Route::get('all-sub-agents', [UserController::class, 'subagents'])->name('admin.all-sub-agents');
     Route::get('posmanagement', [UserController::class, 'posmanagement'])->name('admin.posmanagement');
@@ -67,6 +72,18 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'AgentCheck'])->
 
     Route::get('/settings', [UserController::class, 'settings'])->name('admin.generalsettings');
     Route::post('/settings', [UserController::class, 'settingspost']);
+    Route::get('/floatsettings', [UserController::class, 'floatsettings'])->name('admin.floatsettings');
+    Route::post('/floatsettings', [UserController::class, 'floatpost']);
+
+    Route::get('/float-request', [UserController::class, 'floatrequest'])->name('admin.floatrequest');
+    Route::get('/float-active', [UserController::class, 'floatrunning'])->name('admin.floatrunning');
+    Route::get('/float-due', [UserController::class, 'floatdue'])->name('admin.floatdue');
+    Route::get('/float-closed', [UserController::class, 'floatclose'])->name('admin.floatclose');
+    Route::get('/float/{id}', [UserController::class, 'floatview'])->name('admin.floatview');
+    Route::get('/floatapprove/{id}', [UserController::class, 'floatapprove']);
+    Route::get('/floatreject/{id}', [UserController::class, 'floatreject']);
+    Route::get('/floatterminate/{id}', [UserController::class, 'floatterminate']);
+
     Route::get('/payment/settings', [UserController::class, 'paymentsettings'])->name('admin.paymentsettings');
 
     Route::get('users', [UserController::class, 'users'])->name('admin.users');
@@ -80,39 +97,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'AgentCheck'])->
     Route::get('/edit-admin/{id}', [UserController::class, 'adminEdit'])->name('admin.adminEdit');
 
     Route::post('/update-admin', [UserController::class, 'adminUpdate'])->name('admin.adminUpdate');
-
-
-    Route::get('/fee-transfer', [FeesController::class, 'transfer'])->name('admin.fee.transfer');
-    Route::get('/fee-transfer/delete/{id}', [FeesController::class, 'deleteTransfer'])->name('admin.fee.transfer.delete');
-    Route::get('/fee-transfer/{id}', [FeesController::class, 'transfer_modify'])->name('admin.fee.transfer.modify');
-    Route::get('/fee-transfer-create', [FeesController::class, 'transfer_create'])->name('admin.fee.transfer.create');
-    Route::post('/fee-transfer-create', [FeesController::class, 'transfer_create_post'])->name('admin.fee.transfer.create');
-    Route::post('/fee-transfer-update', [FeesController::class, 'transfer_update'])->name('admin.fee.transfer.update');
-
-    Route::get('/fee-cashout', [FeesController::class, 'cashout'])->name('admin.fee.cashout');
-    Route::get('/fee-cashout/delete/{id}', [FeesController::class, 'deleteCashout'])->name('admin.fee.cashout.delete');
-    Route::get('/fee-cashout/{id}', [FeesController::class, 'cashout_modify'])->name('admin.fee.cashout.modify');
-    Route::get('/fee-cashout-create', [FeesController::class, 'cashout_create'])->name('admin.fee.cashout.create');
-    Route::post('/fee-cashout-create', [FeesController::class, 'cashout_create_post'])->name('admin.fee.cashout.create');
-    Route::post('/fee-cashout-update', [FeesController::class, 'cashout_update'])->name('admin.fee.cashout.update');
-
-    Route::get('/fee-poswithdrawal', [FeesController::class, 'poswithdrawal'])->name('admin.fee.poswithdrawal');
-    Route::get('/fee-poswithdrawal/delete/{id}', [FeesController::class, 'deletePoswithdrawal'])->name('admin.fee.poswithdrawal.delete');
-    Route::get('/fee-poswithdrawal/{id}', [FeesController::class, 'poswithdrawal_modify'])->name('admin.fee.poswithdrawal.modify');
-    Route::get('/fee-poswithdrawal_create', [FeesController::class, 'poswithdrawal_create'])->name('admin.fee.poswithdrawal.create');
-    Route::post('/fee-poswithdrawal_create', [FeesController::class, 'poswithdrawal_create_post'])->name('admin.fee.poswithdrawal.create');
-    Route::post('/fee-poswithdrawal_update', [FeesController::class, 'poswithdrawal_update'])->name('admin.fee.poswithdrawal.update');
-
-    Route::get('/incentive-flat', [IncentiveController::class, 'flat'])->name('admin.incentive.flat');
-    Route::get('/incentive-flat/delete/{id}', [IncentiveController::class, 'deleteFlat'])->name('admin.incentive.flat.delete');
-    Route::get('/incentive-flat-create', [IncentiveController::class, 'createFlat'])->name('admin.incentive.flat.create');
-    Route::post('/incentive-flat-create', [IncentiveController::class, 'create_Flat_post'])->name('admin.incentive.flat.create');
-
-    Route::get('/incentive-percent', [IncentiveController::class, 'percent'])->name('admin.incentive.percent');
-    Route::get('/incentive-percent/delete/{id}', [IncentiveController::class, 'deletePercent'])->name('admin.incentive.percent.delete');
-    Route::get('/incentive-percent-create', [IncentiveController::class, 'createPercent'])->name('admin.incentive.percent.create');
-    Route::post('/incentive-percent-create', [IncentiveController::class, 'create_Percent_post'])->name('admin.incentive.percent.create');
-
 
     Route::get('roles', [Role::class, 'roles'])->name('admin.roles');
     Route::get('role-edit/{id}', [Role::class, 'roleedit'])->name('admin.roleedit');
@@ -134,6 +118,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'verified', 'AgentCheck'])->
     Route::get('/admin/trans', function () {
         return view('admin/trans');
     });
+});
+
 });
 
 Route::get('/admin/login', function () {

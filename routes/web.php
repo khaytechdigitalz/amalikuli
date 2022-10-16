@@ -51,6 +51,8 @@ Route::get('/logout', function () {
 
 Route::middleware(['auth:sanctum', 'verified', 'AdminCheck'])->group(function () {
 
+Route::middleware('agent')->group(function () {
+
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     Route::post('vpay', [VFDController::class, 'accountTransfer'])->name('vpay');
@@ -67,10 +69,12 @@ Route::middleware(['auth:sanctum', 'verified', 'AdminCheck'])->group(function ()
 
     Route::post('/agents', [AgentController::class, 'searchSubAgents'])->name('searchSubAgents');
 
-    Route::get('/float', [AgentController::class, 'float'])->name('float');
-    Route::get('/float/loangit', [AgentController::class, 'float'])->name('floatloan');
-
+    Route::get('/float/otp', [AgentController::class, 'floatotp'])->name('float');
+    Route::post('/float/otp', [AgentController::class, 'floatpostotp']);
+    Route::get('/float', [AgentController::class, 'float'])->name('floatstep1');
     Route::post('/float', [AgentController::class, 'floatpost'])->name('floatrequest');
+    Route::get('/float/history', [AgentController::class, 'myfloat'])->name('floatloan');
+    Route::get('/float/pay/{id}', [AgentController::class, 'payfloat'])->name('payfloat');
 
     Route::get('add-customer', function () {
         return view('add-user');
@@ -100,6 +104,7 @@ Route::middleware(['auth:sanctum', 'verified', 'AdminCheck'])->group(function ()
     Route::get('/terminals/{id}', [PosManagementController::class, 'terminalsTransaction'])->name('terminalsTransaction');
     Route::post('/terminals', [PosManagementController::class, 'assignterminals']);
     Route::get('/transactions/{id}/subagent', [AgentController::class, 'agentTransactions'])->name('agentTransactions');
+    Route::get('/float/{id}/subagent', [AgentController::class, 'agentFloat'])->name('agentFloat');
     Route::get('/wallet/history', [WalletController::class, 'history'])->name('walletHistory');
     Route::get('/wallet/withdraw', [WalletController::class, 'withdraw'])->name('walletWithdraw');
     Route::get('/transactions', [AgentController::class, 'transactions'])->name('transactions');
@@ -121,9 +126,17 @@ Route::middleware(['auth:sanctum', 'verified', 'AdminCheck'])->group(function ()
         return view('posmanagement');
     });
 
-    Route::get('/bill-payment', function (){
-        return view('bill-payment');
-    });
+Route::get('float/cron', [AgentController::class, 'floatcron'])->name('floatcron');
+
+
+Route::middleware('iframe')->group(function () {
+Route::get('/buy-now-pay-later', [AgentController::class, 'buynpl'])->name('buynpl');
+});
+
+
+Route::get('/posmanagement', function () {
+    return view('posmanagement');
+});
 
 
 
@@ -178,6 +191,7 @@ Route::middleware(['auth:sanctum', 'verified', 'AdminCheck'])->group(function ()
     });
     Route::post('bills.bill', [BillsPaymentController::class, 'buyAirtime'])->name('bills.bill');
 
+});
 });
 
 require __DIR__ . '/admin.php';

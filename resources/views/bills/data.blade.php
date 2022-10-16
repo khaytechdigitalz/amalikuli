@@ -4,19 +4,21 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="row justify-content-lg-center">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
 
                     <div class="page-header">
                         <div class="row">
                             <div class="col">
                                 <h3 class="page-title">Data TopUp</h3>
-                                <ul class="bGreadcrumb">
-                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
-                                    {{--                                <li class="breadcrumb-item active">Profile</li>--}}
-                                </ul>
+
                             </div>
                         </div>
                     </div>
+
+                    <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Data Topup</li>
+                                </ul>
                     <div class="card">
                         <div class="card-body">
                             <div class="box w3-card-4">

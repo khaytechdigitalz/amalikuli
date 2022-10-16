@@ -21,7 +21,7 @@
                                 <div class="progress-bar bg-5" role="progressbar" style="width: 75%" aria-valuenow="75"
                                      aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                                 <div class="progress-bar bg-6" role="progressbar" style="width: 65%" aria-valuenow="75"
                                      aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -65,17 +65,17 @@
                                 <div class="progress-bar bg-7" role="progressbar" style="width: 85%" aria-valuenow="75"
                                      aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
-                 
+
             </div>
             <div class="card-body">
                 <form class="form" id="filter_form" method="get">
                     <div class="row">
-                        <h5 class="text-secondary">Subagents</h5>
-                         
+                        <h5 class="text-secondary">Agents</h5>
+
 
                         <div class="row">
                             <div class="col-sm-12">
@@ -186,7 +186,7 @@
                                         <th>Sub Agent Assigned</th>
                                         <th>Serial Number</th>
                                         <th>Status</th>
-                                        <th>Date</th> 
+                                        <th>Date</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -199,14 +199,14 @@
                                                 {{$data->terminal_id}}
                                             </td>
                                             <td>
-                                                {{@App\Models\User::whereId($data->agent_id)->first()->firstname}} 
+                                                {{@App\Models\User::whereId($data->agent_id)->first()->firstname}}
                                                 {{@App\Models\User::whereId($data->agent_id)->first()->lastname}}
                                             </td>
                                             <td>
 
-                                            {{@App\Models\User::whereId($data->sub_agent_id)->first()->firstname}} 
+                                            {{@App\Models\User::whereId($data->sub_agent_id)->first()->firstname}}
                                             {{@App\Models\User::whereId($data->sub_agent_id)->first()->lastname}}
-                                                 
+
                                             </td>
                                             <td>
                                                 {{$data->serial_number}}
@@ -220,7 +220,7 @@
                                             </td>
                                             <td>
                                                 {{$data->created_at}}
-                                            </td> 
+                                            </td>
                                         </tr>
                                     @endforeach
 

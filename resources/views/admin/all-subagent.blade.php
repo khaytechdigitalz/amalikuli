@@ -6,7 +6,7 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">All Sub-Agents</h3>
+                    <h3 class="page-title">All Agents</h3>
                     <ul class="breadcrumb">
                         <li ><a href="{{url('admin/dashboard')}}">Dashboard</a></li>
                         {{--                        <li class="breadcrumb-item active">Pos Management</li>--}}
@@ -18,7 +18,7 @@
         <div class="card-body">
             <form class="form" id="filter_form" method="get">
                 <div class="row">
-                   
+
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card card-table">
@@ -43,7 +43,7 @@
                                         <tr>
                                            <td>{{$loop->iteration}}</td>
                                             <td>
-                                                
+
                                                 @php
                                                 $agent = App\Models\User::whereUuid($user->uuid)->whereSubAgent(null)->first();
                                                 @endphp
@@ -54,12 +54,12 @@
                                             </td>
                                             <td>
                                                 {{$user->uuid."-".$user->id}}<br>
-                                                 
+
                                             </td>
                                             <td>
                                                 {{$user->firstname}} {{$user->lastname}}
                                             </td>
-                                            
+
                                             <td>
                                                 {{$user->email}}
                                             </td>

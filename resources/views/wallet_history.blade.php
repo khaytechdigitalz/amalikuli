@@ -12,13 +12,15 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <h3 class="page-title">Wallet History</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a>
-                            </li>
-                        </ul>
+
                     </div>
                 </div>
             </div>
+
+                                <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Wallet History</li>
+                                </ul>
 
             <div class="card-body">
                 <form class="form" id="filter_form" method="get">

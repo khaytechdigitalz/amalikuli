@@ -8,13 +8,17 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <h3 class="page-title">Performance Report</h3>
-                        <ul class="breadcrumb">
-                            <li><a href="{{url('dashboard')}}">Dashboard</a></li>
-                            {{--                        <li class="breadcrumb-item active">Pos Management</li>--}}
-                        </ul>
+
                     </div>
                 </div>
             </div>
+
+
+            <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Perfomance Report</li>
+                                </ul>
+
             <div class="card-body">
                 <form class="form" id="filter_form" method="get">
                     <div class="row">

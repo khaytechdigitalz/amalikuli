@@ -1,11 +1,25 @@
 @extends('layouts.sidebar')
 
 @section('content')
-    <div class="page-wrapper">
-        <div style="padding:90px 15px 20px 15px">
-            <h5 class="text-center">Select Tv Product</h2>
-                <div class="card">
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="row justify-content-lg-center">
+            <div class="col-lg-12">
 
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="page-title">Cable Subscription</h3>
+
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Cable TV</li>
+                                </ul>
+{{--                <div class="card">--}}
                     <div class="card-body">
                         <!--                    <div class="box w3-card-4">-->
                         <div class="row">

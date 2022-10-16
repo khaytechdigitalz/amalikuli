@@ -6,20 +6,26 @@
             <div class="row justify-content-lg-center">
                 <div class="col-lg-10">
 
-                    <div class="page-header">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="page-title">Add Sub-Agent</h3>
-                                <ul class="breadcrumb">
-                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
-                                    {{--                                <li class="breadcrumb-item active">Profile</li>--}}
-                                </ul>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+
+                        <div class="col-12">
+                        @if(Auth::user()->sub_agent == 1)
+                                <h3 class="page-title">Add Agent</h3>
+                        @else
+                        <h3 class="page-title">Add Sub Agent</h3>
+                        @endif
+
+                                <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Add Agent</li>
+                                </ul>
+                            </div>
                             <div class="card">
+
+
                                 <div class="card-body">
                                     {{--                                <h4 class="card-title">Basic Info</h4>--}}
                                     <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
@@ -86,7 +92,7 @@
                                             </div>
                                         </div>
                                         <div class="text-end mt-4">
-                                            <button type="submit" class="btn btn-primary">Add Sub-Agent</button>
+                                            <button type="submit" class="btn btn-primary">Add Sub Agent</button>
                                         </div>
                                     </form>
                                 </div>

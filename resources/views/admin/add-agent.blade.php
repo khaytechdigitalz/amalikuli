@@ -1,29 +1,26 @@
-@extends('layouts.sidebar')
+@extends('admin/layout.sidebar')
 
 @section('content')
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="row justify-content-lg-center">
-                <div class="col-lg-12">
+                <div class="col-lg-10">
 
-                    <div class="page-header">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="page-title">Request Float</h3>
 
-                            </div>
-                        </div>
                     </div>
-
-
-                    <ul class="breadcrumb">
-                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Request Float</li>
-                                </ul>
-
                     <div class="row">
                         <div class="col-md-12">
+
+                        <div class="col-12">
+                                <h3 class="page-title">Create Agent</h3>
+                                <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    {{--                                <li class="breadcrumb-item active">Profile</li>--}}
+                                </ul>
+                            </div>
                             <div class="card">
+
+
                                 <div class="card-body">
                                     {{--                                <h4 class="card-title">Basic Info</h4>--}}
                                     <x-jet-validation-errors class="mb-4 alert-danger alert-dismissible alert"/>
@@ -47,7 +44,7 @@
                                         </div>
                                     @endif
 
-                                    <form action="{{route('createSubAgent')}}" method="POST">
+                                    <form action="" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-md-6">
@@ -90,7 +87,7 @@
                                             </div>
                                         </div>
                                         <div class="text-end mt-4">
-                                            <button type="submit" class="btn btn-primary">Add Sub-Agent</button>
+                                            <button type="submit" class="btn btn-primary">Create Agent</button>
                                         </div>
                                     </form>
                                 </div>

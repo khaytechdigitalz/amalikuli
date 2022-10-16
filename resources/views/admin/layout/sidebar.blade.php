@@ -22,6 +22,7 @@
     <![endif]-->
 
     @yield('styles')
+    @stack('styles')
 </head>
 <body>
 
@@ -58,8 +59,6 @@
 
 
         <ul class="nav nav-tabs user-menu">
-
-
             <li class="nav-item dropdown">
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <i data-feather="bell"></i> <span class="badge rounded-pill">5</span>
@@ -104,11 +103,36 @@
                         <a class="nav-link" href="{{url('admin/dashboard')}}" ><i data-feather="home"></i> <span>Dashboard</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{{url('admin/all-agents')}}"><i data-feather="users"></i> <span>All Agents</span></a>
+                        <a class="nav-link" href="{{url('admin/all-agents')}}"><i data-feather="users"></i> <span>Master Agents</span></a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{{url('admin/all-sub-agents')}}"><i data-feather="users"></i> <span>All Sub-Agents</span></a>
+                        <a class="nav-link" href="{{url('admin/all-sub-agents')}}"><i data-feather="users"></i> <span>All Agents</span></a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="{{url('admin/createAgent')}}"><i data-feather="plus"></i> <span>Create Agent</span></a>
+                    </li>
+                    <hr>
+                    <li class="nav-link"><b>FLOAT MANAGER</b></li>
+
+                    <li>
+                        <a class="nav-link" href="{{url('admin/float-request')}}"><i data-feather="gift"></i> <span>Float Request</span></a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="{{url('admin/float-active')}}"><i class="fa fa-spinner fa-spin"></i> <span>Active Loan</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{url('admin/float-due')}}"><i class="fas fa-info-circle"></i> <span>Due Loan</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{url('admin/float-closed')}}"><i class="fas fa-check-circle"></i> <span>Settled Loan</span></a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('admin.floatsettings')}}"><i data-feather="percent"></i> <span>Float Settings</span></a>
+                    </li>
+                    <hr>
+
                     <li>
                         <a class="nav-link active" href="{{url('admin/posmanagement')}}"><i class="fa fa-calculator"></i><span>POS Manager</span></a>
                     </li>
@@ -116,20 +140,20 @@
                         <a class="nav-link active" href="{{url('admin/kycs')}}"><i class="fa fa-lock"></i>
                         <span>KYC</span></a>
                     </li>
-{{--                    <li>--}}
-{{--                        <a class="nav-link active" href="{{url('bill-payment')}}"><i class="fa fa-sticky-note"></i>--}}
-{{--                            <span>All Bills</span></a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a class="nav-link active" href="{{url('bills/airtime')}}"><i class="fa fa-network-wired"></i>--}}
-{{--                            <span>Buy Airtime</span></a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a class="nav-link" href="{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>--}}
-{{--                    </li>--}}
+                    <li>
+                        <a class="nav-link active" href="{{url('bill-payment')}}"><i class="fa fa-sticky-note"></i>
+                            <span>All Bills</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link active" href="{{url('bills/airtime')}}"><i class="fa fa-network-wired"></i>
+                            <span>Buy Airtime</span></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{{url('users')}}"><i data-feather="users"></i> <span>Users</span></a>
+                    </li>
+                    <li>
+                        <a href="{{route('profile')}}"><i data-feather="user"></i> <span>Profile</span></a>
+                    </li>
 
                     <li>
                         <a href="{{route('admin.fee.transfer')}}"><i class="fa fa-money-check"></i>
@@ -164,9 +188,9 @@
                         <a href="{{route('admin.generalsettings')}}"><i data-feather="settings"></i> <span>General Settings</span></a>
                     </li>
 
-{{--                    <li>--}}
-{{--                        <a href="{{route('admin.paymentsettings')}}"><i data-feather="shopping-cart"></i> <span>Payment Settings</span></a>--}}
-{{--                    </li>--}}
+                    <li>
+                        <a href="{{route('admin.paymentsettings')}}"><i data-feather="shopping-cart"></i> <span>Payment Settings</span></a>
+                    </li>
 
                 </ul>
             </div>
@@ -191,10 +215,10 @@
 <script src="{{asset('assets/plugins/apexchart/chart-data.js')}}"></script>
 
 {{--    <script src="{{asset('assets/js/script.js')}}"></script>--}}
-<script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables/datatables.min.js')}}"></script>
+
 
 @yield('scripts')
+@stack('script')
 
 </body>
 </html>

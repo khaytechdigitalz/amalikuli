@@ -11,22 +11,18 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Agent</h3>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a>
-                            </li>
-                        </ul>
+                        <h3 class="page-title">Sub Agent</h3>
+
                     </div>
-                    <div class="col-auto">
-                        {{--                        <a href="" class="btn btn-primary me-1">--}}
-                        {{--                            <i class="fas fa-plus"></i>--}}
-                        {{--                        </a>--}}
-                        {{--                        <a class="btn btn-primary filter-btn" href="javascript:void(0);" id="filter_search">--}}
-                        {{--                            <i class="fas fa-filter"></i>--}}
-                        {{--                        </a>--}}
+
                     </div>
                 </div>
             </div>
+
+            <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Sub Agent</li>
+                                </ul>
 
 
             <div id="filter_inputs" class="card filter-card">
@@ -75,7 +71,7 @@
                         <div class="col-md-2 mt-4">
 
                             <a href="{{route('addSubAgent')}}" class="btn btn-primary" role="button"><i
-                                class="fa fa-plus-circle"> </i> Add Agent</a>
+                                class="fa fa-plus-circle"> </i> Add Sub Agent</a>
                     </div>
                 </div>
             </form>
@@ -121,14 +117,22 @@
                                             </td>
                                             <td>
                                                 @if($user->status == 1)
-                                                    <span class="badge badge-primary"> Active </span>
+                                                    <span class="badge badge-success"> Active </span>
                                                 @else
                                                     <span class="badge badge-danger"> De-activated </span>
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{route('agentTransactions',$user->id)}}"
-                                                   class="btn btn-primary">View Performance</a>
+                                            <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                            </button>
+                                            <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{route('agentTransactions',$user->id)}}">View Perfomance</a>
+                                            <a class="dropdown-item" href="{{route('agentFloat',$user->id)}}">View Float</a>
+                                            </div>
+                                            </div>
+
                                             </td>
                                         </tr>
                                     @endforeach

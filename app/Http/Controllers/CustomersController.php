@@ -15,7 +15,6 @@ class CustomersController extends Controller
     {
         $datas['users'] = Customer::where("created_by", Auth::id())->get();
         $datas['i'] = 1;
-
         return view('users', $datas);
     }
 

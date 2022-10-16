@@ -45,12 +45,12 @@
                                         <div class="row form-group">
                                             <label for="name" class="col-sm-3 col-form-label input-label">Name</label>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" name="lastname"
+                                                <input type="text" class="form-control" readonly name="lastname"
                                                        placeholder="Last Name"
                                                        value="{{\Illuminate\Support\Facades\Auth::user()->lastname}}">
                                             </div>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control" name="firstname"
+                                                <input type="text" class="form-control" readonly name="firstname"
                                                        placeholder="First Name"
                                                        value="{{\Illuminate\Support\Facades\Auth::user()->firstname}}">
                                             </div>
@@ -58,7 +58,7 @@
                                         <div class="row form-group">
                                             <label for="email" class="col-sm-3 col-form-label input-label">Email</label>
                                             <div class="col-sm-9">
-                                                <input type="email" class="form-control" name="email" id="email"
+                                                <input type="email" class="form-control" readonly name="email" id="email"
                                                        placeholder="Email"
                                                        value="{{\Illuminate\Support\Facades\Auth::user()->email}}">
                                             </div>

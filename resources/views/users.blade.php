@@ -7,20 +7,22 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Customers</h3>
-                        <ul class="breadcrumb">
-                            <li><a href="{{url('dashboard')}}">Dashboard</a></li>
-                            {{--                        <li class="breadcrumb-item active">Pos Management</li>--}}
-                        </ul>
+                        <h3 class="page-title">Customers Account</h3>
+
                     </div>
                 </div>
             </div>
 
+                                <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Customers</li>
+                                </ul>
+
 
             <div class="row">
-                <div class="col-md-2 mt-4 mb-3">
-                    <a href="{{url('add-customer')}}" class="btn btn-primary" role="button"><i
-                            class="fa fa-plus-circle"> </i> Add Customer</a>
+                <div class="col-md-6 mt-4 mb-3">
+                    <a href="{{url('add-customer')}}" class="btn btn-primary btn-block" role="button"><i
+                            class="fa fa-plus-circle"> </i> Open New Account</a>
                 </div>
 
                 <div class="col-sm-12">
@@ -31,11 +33,9 @@
                                     <thead class="thead-light">
                                     <tr>
                                         <th>S/N</th>
-                                        <th>BVN</th>
-                                        <th>Email</th>
+                                         <th>Email</th>
                                         <th>Phone Number</th>
-                                        <th>DOB</th>
-                                        <th>Account Name</th>
+                                         <th>Account Name</th>
                                         <th>Account Number</th>
                                     </tr>
                                     </thead>
@@ -46,18 +46,12 @@
                                                 {{$i++}}
                                             </td>
                                             <td>
-                                                {{$user->bvn}}
-                                            </td>
-                                            <td>
                                                 {{$user->email}}
                                             </td>
                                             <td>
                                                 {{$user->phoneno}}
                                             </td>
-                                            <td>
-                                                {{$user->dob}}
-                                            </td>
-                                            <td>
+                                              <td>
                                                 {{$user->accountName}}
                                             </td>
                                             <td>

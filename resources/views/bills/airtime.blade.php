@@ -4,19 +4,21 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="row justify-content-lg-center">
-                <div class="col-lg-10">
+                <div class="col-lg-12">
 
                     <div class="page-header">
                         <div class="row">
                             <div class="col">
                                 <h3 class="page-title">Airtime TopUp</h3>
-                                <ul class="breadcrumb">
-                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
-                                {{--                                <li class="breadcrumb-item active">Profile</li>--}}
-                                </ul>
+
                             </div>
                         </div>
                     </div>
+
+                    <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Airtime Topup</li>
+                                </ul>
                     <div class="card">
                         <div class="card-body">
                             <div class="box w3-card-4">
@@ -74,6 +76,19 @@
                                                     </div>
                                                 </div>
 
+
+
+                                                <div id="div_id_network" class="form-group">
+                                                    <label for="network" class=" requiredField">
+                                                        Payment Method<span class="asteriskField">*</span>
+                                                    </label>
+                                                    <div class="">
+                                                        <select name="wallet" class="form-control" required>
+                                                        <option name="wallet" >Wallet</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                                 <button type="submit" class="btn"
                                                         style="color: white;background-color: #048047" id="btnsubmit">
                                                     Purchase Now
@@ -84,15 +99,15 @@
                                             <br>
                                             <h6 class="text-center">Codes for Airtime Balance: </h6>
                                             <ul class="list-group">
-                                                <li class="list-group-item list-group-item-primary">MTN Airtime VTU
+                                                <li class="list-group-item list-group-item-warning">MTN Airtime VTU
                                                     <span id="RightT"> *556#  </span></li>
-                                                <li class="list-group-item list-group-item-success"> 9mobile Airtime VTU
+                                                <li class="list-group-item list-group-item-secondary"> 9mobile Airtime VTU
                                                     *232#
                                                 </li>
-                                                <li class="list-group-item list-group-item-action"> Airtel Airtime VTU
+                                                <li class="list-group-item list-group-item-danger"> Airtel Airtime VTU
                                                     *123#
                                                 </li>
-                                                <li class="list-group-item list-group-item-info"> Glo Airtime VTU
+                                                <li class="list-group-item list-group-item-success"> Glo Airtime VTU
                                                     #124#.
                                                 </li>
                                             </ul>

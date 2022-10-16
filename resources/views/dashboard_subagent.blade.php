@@ -5,6 +5,12 @@
         <div class="content container-fluid">
             <div class="row">
 
+
+            <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ul>
+
             @if (session('status'))
                                     <div class="card-body">
                                         <div class="mb-4 font-medium text-sm text-green-600 alert-dismissible alert">

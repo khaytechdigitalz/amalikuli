@@ -8,13 +8,15 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h3 class="page-title">Pos Management</h3>
-                    <ul class="breadcrumb">
-                        <li ><a href="{{url('dashboard')}}">Dashboard</a></li>
-{{--                        <li class="breadcrumb-item active">Pos Management</li>--}}
-                    </ul>
+
                 </div>
             </div>
         </div>
+
+        <ul class="breadcrumb">
+                                    <li class=""><a href="{{url('dashboard')}}">Dashboard</a></li>
+                                    <li class="breadcrumb-item active"> Terminals</li>
+                                </ul>
 
 
         <div id="filter_inputs" class="card filter-card">
