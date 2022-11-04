@@ -87,13 +87,11 @@ class VFDController extends Controller
         }catch (\Exception $e){
             return redirect()->route('dashboard')->with('error', 'Currently not available');
         }
-//        echo $response;
-//        echo env('VFD_URL').'vfd-wallet/1.1/wallet2/bank';
-//        return $response;
+
         $rep = json_decode($response, true);
 
         $rep1 = $rep['data']['bank'];
-//return $rep1;
+
         return view('transfer', compact('rep1'));
 
     }

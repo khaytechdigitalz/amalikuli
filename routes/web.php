@@ -138,6 +138,9 @@ Route::get('/posmanagement', function () {
     return view('posmanagement');
 });
 
+    Route::get('/bill-payment', function (){
+        return view('bill-payment');
+    });
 
 
 

@@ -272,8 +272,8 @@ ul.breadcrumb li a:hover {
                     @if(canSee('wallet-withdraw'))
                     <li class="nav-link"><b>WALLET MANAGER</b></li>
 
-                    <li  class="{{ Request::is('walletWithdraw') ? 'active' : '' }}">
-                            <a href="{{route('walletWithdraw')}}"><i class="fa fa-wallet"></i>
+                    <li  class="{{ Request::is('transfer') ? 'active' : '' }}">
+                            <a href="{{route('transfer')}}"><i class="fa fa-wallet"></i>
                                 <span>Withdrawal </span></a>
                         </li>
                     @endif
