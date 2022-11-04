@@ -65,7 +65,7 @@ class VFDController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $baseurl . 'vtech-wallet/api/v1/wallet2/bank',
+            CURLOPT_URL => $baseurl . 'vfd-wallet/1.1/wallet2/bank',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -132,7 +132,7 @@ class VFDController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $baseurl . 'vtech-wallet/api/v1/wallet2/transfer/recipient?transfer_type=' . $transferType . '&accountNo=' . $accountNumber . '&bank=' . $bankCode . '&wallet-credentials=' . $auth,
+            CURLOPT_URL => $baseurl . 'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=' . $transferType . '&accountNo=' . $accountNumber . '&bank=' . $bankCode . '&wallet-credentials=' . $auth,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -183,7 +183,7 @@ class VFDController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => env('VFD_URL') . 'vtech-wallet/api/v1/wallet2/transfer/recipient?transfer_type=inter&accountNo=' . $accountNumber . '&bank=' . $bankCode . '&wallet-credentials=' . env('VFD_AUTH'),
+            CURLOPT_URL => env('VFD_URL') . 'vfd-wallet/1.1/wallet2/transfer/recipient?transfer_type=inter&accountNo=' . $accountNumber . '&bank=' . $bankCode . '&wallet-credentials=' . env('VFD_AUTH'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -350,7 +350,7 @@ class VFDController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $baseurl . 'vtech-wallet/api/v1/wallet2/transfer?source=pool&wallet-credentials=' . $auth,
+            CURLOPT_URL => $baseurl . 'vfd-wallet/1.1/wallet2/transfer?source=pool&wallet-credentials=' . $auth,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -421,7 +421,7 @@ class VFDController extends Controller
             $baseurl = env('VFD_URL_TEST');
         } else {
             $auth = env('VFD_AUTH');
-            $baseurl = env('VFD_URL')."v-token/v1/oauth2/";
+            $baseurl = env('VFD_URL');
         }
 
         $curl = curl_init();
