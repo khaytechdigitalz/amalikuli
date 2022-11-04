@@ -92,7 +92,7 @@ class VFDController extends Controller
 //        return $response;
         $rep = json_decode($response, true);
 
-        $rep1 = $rep['data'];
+        $rep1 = $rep['data']['bank'];
 //return $rep1;
         return view('transfer', compact('rep1'));
 
